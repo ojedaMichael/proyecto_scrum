@@ -1,8 +1,18 @@
-import React from "react";
+import { Link } from 'react-router-dom';
 
-function login() {
+function Login() {
   return (
     <>
+
+    <h1>login</h1>
+     <nav>
+      <ul>
+        <li>
+          <Link to="/dashboard">dashboard</Link>
+        </li>
+      </ul>
+    </nav>
+
    
    <section>
   <div class="px-4 py-12 mx-auto max-w-7xl sm:px-6 md:px-12 lg:px-24 lg:py-24">
@@ -50,9 +60,10 @@ function login() {
     </div>
   </div>
 </section>
+
     </>
    
   );
 }
 
-export default login;
+export default Login;
