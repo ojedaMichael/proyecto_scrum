@@ -17,7 +17,11 @@ class EmpresasFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'nombre'=>fake()->company(),
+            'rubro'=>fake()->lastName(),
+            'email'=>fake()->companyEmail(),  
+            'rif'=>fake()->randomNumber(),
+            'telefono'=>fake()->phoneNumber(),
         ];
     }
 }

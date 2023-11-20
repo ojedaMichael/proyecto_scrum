@@ -12,7 +12,7 @@ class EmpresasController extends Controller
      */
     public function index()
     {
-        //
+        return empresas::all();
     }
 
     /**
@@ -28,15 +28,22 @@ class EmpresasController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $empresas = new empresas();
+        $empresas->nombre = $request->nombre;
+        $empresas->rubro = $request->rubro;
+        $empresas->email = $request->email;
+        $empresas->rif = $request->rif;
+        $empresas->telefono = $request->telefono;
+        $empresas->save();
+        return "Guardado correcto";
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(empresas $empresas)
+    public function show($id)
     {
-        //
+        return empresas::find($id);
     }
 
     /**
@@ -50,16 +57,25 @@ class EmpresasController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, empresas $empresas)
+    public function update(Request $request, $id)
     {
-        //
+        $empresas = empresas::find($id);
+        $empresas->nombre = $request->nombre;
+        $empresas->rubro = $request->rubro;
+        $empresas->email = $request->email;
+        $empresas->rif = $request->rif;
+        $empresas->telefono = $request->telefono;
+        $empresas->save();
+        return "Actualizado correcto";
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(empresas $empresas)
+    public function destroy($id)
     {
-        //
+        $empresas = empresas::find($id);
+        $empresas->delete();
+        return "Eliminado correctamente";
     }
 }
