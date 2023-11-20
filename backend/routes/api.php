@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\EmpresasController;
 use App\Http\Controllers\PersonasController;
+use App\Http\Controllers\PostulacionesController;
 use Database\Seeders\EmpresasSeeder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -34,4 +35,12 @@ Route::controller(PersonasController::class)->group(function () {
     Route::post('/personas', 'store');
     Route::put('/personas/{id}', 'update');
     Route::delete('/personas/{id}', 'destroy');
+});
+
+Route::controller(PostulacionesController::class)->group(function () {
+    Route::get('/postulaciones', 'index');
+    Route::get('/postulaciones/{id}', 'show');
+    Route::post('/postulaciones', 'store');
+    Route::put('/postulaciones/{id}', 'update');
+    Route::delete('/postulaciones/{id}', 'destroy');
 });

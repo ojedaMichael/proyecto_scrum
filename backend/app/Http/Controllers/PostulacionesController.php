@@ -12,7 +12,7 @@ class PostulacionesController extends Controller
      */
     public function index()
     {
-        //
+        return postulaciones::all();
     }
 
     /**
@@ -28,23 +28,34 @@ class PostulacionesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $postulaciones = new Postulaciones();
+        $postulaciones->id_persona = $request->id_persona;
+        $postulaciones->id_empleo= $request->id_empleo;
+       
+        $postulaciones->save();
+        return "Guardado correcto";
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(postulaciones $postulaciones)
+    public function show($id)
     {
-        //
+        return postulaciones::find($id);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(postulaciones $postulaciones)
+    public function edit(Request $request,$id)
     {
-        //
+        
+        $postulaciones =postulaciones::find($id);
+        $postulaciones->id_persona = $request->id_persona;
+        $postulaciones->id_empleo= $request->id_empleo;
+       
+        $postulaciones->save();
+        return "Guardado correcto";
     }
 
     /**
@@ -58,8 +69,10 @@ class PostulacionesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(postulaciones $postulaciones)
+    public function destroy($id)
     {
-        //
+        $postulaciones= postulaciones::find($id);
+        $postulaciones->delete();
+        return "elimano correcto";
     }
 }
