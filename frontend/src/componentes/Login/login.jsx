@@ -12,10 +12,10 @@ function login() {
           <div>
             <div class="mt-3 text-left sm:mt-5">
               <div class="inline-flex items-center w-full">
-                <h3 class="text-lg font-bold text-neutral-600 l eading-6 lg:text-5xl">Sign up</h3>
+                <h3 class="text-lg font-bold text-neutral-600 l eading-6 lg:text-5xl">Login</h3>
               </div>
               <div class="mt-4 text-base text-gray-500">
-                <p>Sign up and get our newest news.</p>
+                <p>welcome to the system.</p>
               </div>
             </div>
           </div>
