@@ -1,9 +1,9 @@
-import login from "";
+import Login from "./componentes/Login/login.jsx";
 function App() {
 
   return (
     <>
-   <login/>
+   <Login/>
     </>
   )
 }
