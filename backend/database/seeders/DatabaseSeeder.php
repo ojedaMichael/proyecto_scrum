@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
         $personas-> run();
         $postulaciones= new PostulacionesSeeder;
         $postulaciones-> run();
-        \App\Models\empleos::factory(5)->create();
+        $empleos= new EmpleosSeeder;
+        $empleos-> run();
     }
 }
