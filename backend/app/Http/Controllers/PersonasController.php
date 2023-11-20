@@ -12,7 +12,7 @@ class PersonasController extends Controller
      */
     public function index()
     {
-        //
+        return personas::all();
     }
 
     /**
@@ -28,15 +28,23 @@ class PersonasController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $personas = new personas();
+        $personas->nombre = $request->nombre;
+        $personas->apellido = $request->rubro;
+        $personas->email = $request->email;
+        $personas->dni = $request->dni;
+        $personas->telefono = $request->telefono;
+        $personas->password = $request->password;
+        $personas->save();
+        return "Guardado correcto";
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(personas $personas)
+    public function show($id)
     {
-        //
+        return personas::find($id);
     }
 
     /**
@@ -50,16 +58,27 @@ class PersonasController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, personas $personas)
+    public function update(Request $request,$id)
     {
-        //
+        $personas = personas::find($id);
+        $personas->nombre = $request->nombre;
+        $personas->apellido = $request->rubro;
+        $personas->email = $request->email;
+        $personas->dni = $request->dni;
+        $personas->telefono = $request->telefono;
+        $personas->password = $request->password;
+        $personas->save();
+        return "Actualizado correcto";
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(personas $personas)
+    public function destroy($id)
     {
-        //
+        $personas= personas::find($id);
+        $personas->delete();
+        return "elimano correcto";
+
     }
 }

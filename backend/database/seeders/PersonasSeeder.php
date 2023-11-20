@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\personas;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -12,6 +13,6 @@ class PersonasSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        personas::factory(10)->create();
     }
 }

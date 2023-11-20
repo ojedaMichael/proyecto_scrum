@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\EmpresasController;
+use App\Http\Controllers\PersonasController;
 use Database\Seeders\EmpresasSeeder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -26,4 +27,11 @@ Route::controller(EmpresasController::class)->group(function () {
     Route::post('/empresas', 'store');
     Route::put('/empresas/{id}', 'update');
     Route::delete('/empresas/{id}', 'destroy');
+});
+Route::controller(PersonasController::class)->group(function () {
+    Route::get('/personas', 'index');
+    Route::get('/personas/{id}', 'show');
+    Route::post('/personas', 'store');
+    Route::put('/personas/{id}', 'update');
+    Route::delete('/personas/{id}', 'destroy');
 });

@@ -17,7 +17,12 @@ class PersonasFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'nombre'=>fake()->firstName(),
+            'apellido'=>fake()->lastName(),
+            'email'=>fake()->email(),
+            'dni'=>fake()->dirname(),
+            'telefono'=>fake()->phoneNumber(),
+            'password'=>fake()->password(),
         ];
     }
 }
