@@ -1,13 +1,19 @@
-import React from "react";
+import { Link } from 'react-router-dom';
 
-function login() {
+function Login() {
   return (
     <>
-    <h1>hola</h1>
- 
+    <h1>login</h1>
+     <nav>
+      <ul>
+        <li>
+          <Link to="/dashboard">dashboard</Link>
+        </li>
+      </ul>
+    </nav>
     </>
    
   );
 }
 
-export default login;
+export default Login;
