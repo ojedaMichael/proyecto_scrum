@@ -1,10 +1,9 @@
-import './App.css'
-
+import login from "";
 function App() {
 
   return (
     <>
-     
+   <login/>
     </>
   )
 }
