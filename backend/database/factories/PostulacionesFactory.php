@@ -16,8 +16,10 @@ class PostulacionesFactory extends Factory
      */
     public function definition(): array
     {
+        $num = rand(1,10);
         return [
-            //
+            'id_empleo' => $num,
+            'id_empresa' => $num,
         ];
     }
 }

@@ -14,5 +14,7 @@ class DatabaseSeeder extends Seeder
     {
         $personas= new PersonasSeeder;
         $personas-> run();
+        $postulaciones= new PostulacionesSeeder;
+        $postulaciones-> run();
     }
 }

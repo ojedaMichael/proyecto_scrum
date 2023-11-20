@@ -20,7 +20,9 @@ class PersonasFactory extends Factory
             'nombre'=>fake()->firstName(),
             'apellido'=>fake()->lastName(),
             'email'=>fake()->email(),
-            'dni'=>fake()->phoneNumber(),
+
+            'dni'=>fake()->randomNumber(8),
+
             'telefono'=>fake()->phoneNumber(),
             'password'=>fake()->password(),
         ];
