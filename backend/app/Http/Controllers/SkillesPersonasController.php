@@ -12,7 +12,7 @@ class SkillesPersonasController extends Controller
      */
     public function index()
     {
-        //
+        return skilles_personas::all();
     }
 
     /**
@@ -28,15 +28,19 @@ class SkillesPersonasController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $skillespersonas = new skilles_personas();
+        $skillespersonas->id_personas = $request->id_personas;
+        $skillespersonas->id_skill = $request->id_skill;
+        $skillespersonas->save();
+        return "Guardado correcto";
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(skilles_personas $skilles_personas)
+    public function show($id)
     {
-        //
+        return skilles_personas::find($id);
     }
 
     /**
@@ -50,16 +54,22 @@ class SkillesPersonasController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, skilles_personas $skilles_personas)
+    public function update(Request $request, $id)
     {
-        //
+        $skillespersonas = skilles_personas::find($id);
+        $skillespersonas->id_personas = $request->id_personas;
+        $skillespersonas->id_skill = $request->id_skill;
+        $skillespersonas->save();
+        return "Actualizado correcto";
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(skilles_personas $skilles_personas)
+    public function destroy($id)
     {
-        //
+        $skillespersonas = skilles_personas::find($id);
+        $skillespersonas->delete();
+        return "eliminado correcto";
     }
 }

@@ -13,6 +13,14 @@ return new class extends Migration
     {
         Schema::create('empleos', function (Blueprint $table) {
             $table->id();
+            $table->string('cargo');
+            $table->string('detallesEmpleo');
+            $table->string('requisitos');
+            $table->string('ubicacion');
+            $table->string('modalidad');
+            $table->float('salario');
+            $table->unsignedBigInteger('idEmpresa');
+            $table->foreign('idEmpresa')->references('id')->on('empresas');  
             $table->timestamps();
         });
     }
