@@ -16,8 +16,9 @@ class SkillesFactory extends Factory
      */
     public function definition(): array
     {
+        $skill = ['Habilidades comunicativas','creatividad','Resolucion de problemas'];
         return [
-            //
+            'nombre'=>$skill[rand(0,2)]
         ];
     }
 }

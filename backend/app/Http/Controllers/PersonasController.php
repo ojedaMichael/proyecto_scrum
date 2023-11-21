@@ -78,7 +78,7 @@ class PersonasController extends Controller
     {
         $personas= personas::find($id);
         $personas->delete();
-        return "elimano correcto";
+        return "eliminado correcto";
 
     }
 }
