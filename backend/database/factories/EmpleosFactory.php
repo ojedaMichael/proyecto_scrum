@@ -16,8 +16,14 @@ class EmpleosFactory extends Factory
      */
     public function definition(): array
     {
+       
         return [
-            //
+            'cargo'=>fake()->text(),
+            'detallesEmpleo'=>fake()->text(),
+            'requisitos'=>fake()->text(),
+            'ubicacion'=>fake()->ubicacion(8),
+            'modalidad'=>fake()->text(),
+            'idEmpresa'=>fake()->randomNumber(),
         ];
     }
 }

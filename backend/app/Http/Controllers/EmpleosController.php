@@ -12,7 +12,7 @@ class EmpleosController extends Controller
      */
     public function index()
     {
-        //
+        return empleos::all();
     }
 
     /**
@@ -28,7 +28,16 @@ class EmpleosController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $empleos = new empleos();
+        $empleos->cargo = $request->cargo;
+        $empleos->detallesEmpleo = $request->detallesEmpleo;
+        $empleos->requisitos = $request->requisitos;
+        $empleos->ubicacion = $request->ubicacion;
+        $empleos->modalidad = $request->modalidad;
+        $empleos->salario = $request->salario;
+        $empleos->idEmpresa = $request->idEmpresa;
+        $empleos->save();
+        return "Empleo guardada exitosamente";
     }
 
     /**
@@ -50,16 +59,27 @@ class EmpleosController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, empleos $empleos)
+    public function update(Request $request, $id)
     {
-        //
+        $empleos =  empleos::find($id);
+        $empleos->cargo = $request->cargo;
+        $empleos->detallesEmpleo = $request->detallesEmpleo;
+        $empleos->requisitos = $request->requisitos;
+        $empleos->ubicacion = $request->ubicacion;
+        $empleos->modalidad = $request->modalidad;
+        $empleos->salario = $request->salario;
+        $empleos->idEmpresa = $request->idEmpresa;
+        $empleos->save();
+        return "Empleo Actualizado exitosamente";
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(empleos $empleos)
+    public function destroy($id)
     {
-        //
+        $empleos = empleos::find($id);
+        $empleos->delete();
+        return "Asistencia eliminada exitosamente"; 
     }
 }
