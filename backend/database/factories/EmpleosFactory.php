@@ -16,14 +16,15 @@ class EmpleosFactory extends Factory
      */
     public function definition(): array
     {
-       
+        $num = rand(1,10);
         return [
-            'cargo'=>fake()->text(),
+            'cargo'=>fake()->jobTitle(),
             'detallesEmpleo'=>fake()->text(),
             'requisitos'=>fake()->text(),
-            'ubicacion'=>fake()->ubicacion(8),
+            'ubicacion'=>fake()->address(),
             'modalidad'=>fake()->text(),
-            'idEmpresa'=>fake()->randomNumber(),
+            'salario' => fake()->randomFloat(2, 30000, 100000),
+            'idEmpresa'=>$num,
         ];
     }
 }
