@@ -3,6 +3,9 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\skilles;
+use App\Models\skilles_personas;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -18,5 +21,11 @@ class DatabaseSeeder extends Seeder
         $postulaciones-> run();
         $empleos= new EmpleosSeeder;
         $empleos-> run();
+        $empresas= new EmpresasSeeder;
+        $empresas-> run();
+        $skilles= new SkillesSeeder();
+        $skilles-> run();
+        $skillespersonas= new SkillesPersonasSeeder();
+        $skillespersonas-> run();
     }
 }
