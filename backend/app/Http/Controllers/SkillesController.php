@@ -12,7 +12,7 @@ class SkillesController extends Controller
      */
     public function index()
     {
-        //
+        return skilles::all();
     }
 
     /**
@@ -28,15 +28,18 @@ class SkillesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $skilles = new skilles();
+        $skilles->nombre = $request->nombre;
+        $skilles->save();
+        return "Guardado correcto";
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(skilles $skilles)
+    public function show($id)
     {
-        //
+        return skilles::find($id);
     }
 
     /**
@@ -50,16 +53,21 @@ class SkillesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, skilles $skilles)
+    public function update(Request $request, $id)
     {
-        //
+        $skilles = skilles::find($id);
+        $skilles->nombre = $request->nombre;
+        $skilles->save();
+        return "Actualizado correcto";
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(skilles $skilles)
+    public function destroy($id)
     {
-        //
+        $skilles= skilles::find($id);
+        $skilles->delete();
+        return "eliminado correcto";
     }
 }
