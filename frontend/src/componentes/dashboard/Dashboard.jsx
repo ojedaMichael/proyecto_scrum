@@ -1,9 +1,9 @@
-import Slidenav from "./slidenav";
+import Slidenavs from "./Slidenavs";
 
 function Dashboard() {
   return (
     <>
-      <Slidenav></Slidenav>
+      <Slidenavs></Slidenavs>
     </>
   );
 }
