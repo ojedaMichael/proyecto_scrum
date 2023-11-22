@@ -1,9 +1,11 @@
-
+import Slidenav from "./slidenav";
 
 function Dashboard() {
   return (
-    <div>Dashboard si</div>
-  )
+    <>
+      <Slidenav></Slidenav>
+    </>
+  );
 }
 
-export default Dashboard
+export default Dashboard;
