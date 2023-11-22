@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 import { FiArrowLeft } from "react-icons/fi";
 import { CiSearch,CiCircleChevDown,CiMenuBurger,CiPaperplane,CiViewList,CiLogout } from "react-icons/ci";
 import { CiShop } from "react-icons/ci";
@@ -8,7 +9,6 @@ function empresas() {
   const [open, setOpen] = useState(true);
   const [submenuOpen, setSubmenuOpen] = useState(false);
   const Menu = [
-    
     { link: "/dashboard", title: <Link to="/dashboard">Dashboard</Link> },
     { title: "Pages", icon:<CiMenuBurger /> },
     { title: "Media", icon:<CiPaperplane />, spacing:true },
