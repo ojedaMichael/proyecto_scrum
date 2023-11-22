@@ -1,10 +1,13 @@
-import login from "";
+import Personas from './componentes/Personas/personas';
 function App() {
 
   return (
-    <>
-   <login/>
-    </>
+    <div >
+      <div>
+        <Personas />    
+      </div>
+
+    </div>
   )
 }
 
