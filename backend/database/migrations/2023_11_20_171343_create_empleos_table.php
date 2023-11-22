@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('modalidad');
             $table->float('salario');
             $table->unsignedBigInteger('idEmpresa');
-            $table->foreign('idEmpresa')->references('id')->on('empresas');  
+            $table->foreign('idEmpresa')->references('id')->on('empresas')->onDelete('cascade')->onUpdate('cascade');  
             $table->timestamps();
         });
     }

@@ -15,17 +15,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $personas= new PersonasSeeder;
+        $personas = new PersonasSeeder;
+        $empresas = new EmpresasSeeder;
+        $skilles = new SkillesSeeder;
+        $SkillesPersonas = new SkillesPersonasSeeder;
+        $empleos = new EmpleosSeeder;
+        $postulaciones = new PostulacionesSeeder;
+
         $personas-> run();
-        $postulaciones= new PostulacionesSeeder;
-        $postulaciones-> run();
-        $empleos= new EmpleosSeeder;
-        $empleos-> run();
-        $empresas= new EmpresasSeeder;
         $empresas-> run();
-        $skilles= new SkillesSeeder();
         $skilles-> run();
-        $skillespersonas= new SkillesPersonasSeeder();
-        $skillespersonas-> run();
+        $SkillesPersonas-> run();
+        $empleos-> run();
+        $postulaciones-> run();
     }
 }
