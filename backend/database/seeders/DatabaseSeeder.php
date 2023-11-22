@@ -3,6 +3,9 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\skilles;
+use App\Models\skilles_personas;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
