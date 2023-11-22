@@ -1,6 +1,6 @@
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Login from "./componentes/Login/Login.jsx"
+import Login from "./componentes/Login/login.jsx"
 import Dashboard from "./componentes/dashboard/Dashboard.jsx";
 import Empresas from './componentes/empresas/Empresas.jsx';
 
