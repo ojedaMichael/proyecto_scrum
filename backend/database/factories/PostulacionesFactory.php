@@ -19,7 +19,7 @@ class PostulacionesFactory extends Factory
         $num = rand(1,10);
         return [
             'id_empleo' => $num,
-            'id_empresa' => $num,
+            'id_persona' => $num,
         ];
     }
 }

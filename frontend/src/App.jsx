@@ -1,8 +1,10 @@
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from "./componentes/Login/Login.jsx"
+
 import Dashboard from "./componentes/dashboard/Dashboard.jsx";
 import Empresas from './componentes/empresas/Empresas.jsx';
+import Form from './componentes/prueba.axios/Form.jsx';
 
 function App() {
 
@@ -11,9 +13,11 @@ function App() {
 
      <BrowserRouter>
       <Routes>
+
         <Route path="/" element={<Login/>}/>
         <Route path="/dashboard" element={<Dashboard/>}/>
         <Route path="/empresas" element={<Empresas/>}/>
+
       </Routes>
      </BrowserRouter>
 
