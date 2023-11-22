@@ -53,7 +53,7 @@ function Slidenav() {
           <ul className="relative m-0 list-none px-[0.2rem]">
             <li>
               <a
-                href="#"
+                href="/dashboard"
                 className="flex items-center p-2  text-white rounded-lg dark:text-white hover:bg-gray-700 dark:hover:bg-gray-700 group"
               >
                 <svg
@@ -71,7 +71,7 @@ function Slidenav() {
             </li>
             <li>
               <a
-                href="#"
+                href="/empresas"
                 className="flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-gray-700 dark:hover:bg-gray-700 group"
               >
                 <svg
