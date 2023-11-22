@@ -10,6 +10,9 @@ function Login() {
         <li>
           <Link to="/dashboard">dashboard</Link>
         </li>
+        <li>
+        <Link to="/empresas">empresas</Link>
+        </li>
       </ul>
     </nav>
 
