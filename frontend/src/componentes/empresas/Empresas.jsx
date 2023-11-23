@@ -1,7 +1,14 @@
-import { useState,useEffect } from "react";
-import axios from 'axios';
+import { useState, useEffect } from "react";
+import axios from "axios";
 import { FiArrowLeft } from "react-icons/fi";
-import { CiSearch,CiCircleChevDown,CiMenuBurger,CiPaperplane,CiViewList,CiLogout } from "react-icons/ci";
+import {
+  CiSearch,
+  CiCircleChevDown,
+  CiMenuBurger,
+  CiPaperplane,
+  CiViewList,
+  CiLogout,
+} from "react-icons/ci";
 import { CiShop } from "react-icons/ci";
 import { MdSpaceDashboard } from "react-icons/md";
 import { Link } from "react-router-dom";
@@ -11,7 +18,7 @@ function Empresas() {
   const [open, setOpen] = useState(true);
   const [submenuOpen, setSubmenuOpen] = useState(false);
   const [datos, setDatos] = useState([]);
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
   const [updateTable, setUpdateTable] = useState(false);
 
   const Menu = [
@@ -36,89 +43,90 @@ function Empresas() {
   ];
 
   const [formData, setFormData] = useState({
-    nombre: '',
-    rubro: '',
-    email: '',
-    rif: '',
-    telefono: ''
+    nombre: "",
+    rubro: "",
+    email: "",
+    rif: "",
+    telefono: "",
   });
 
-    const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-        e.preventDefault();
-
-        try {
-
-            const response = await axios.put(`http://127.0.0.1:8000/api/empresas/${id}`, formData)
-            alert(response.data)
-            setUpdateTable(true);
-            
-        } catch (error) {
-            console.error('error al enviar solicitud:', error)
-        }
+    try {
+      const response = await axios.put(
+        `http://127.0.0.1:8000/api/empresas/${id}`,
+        formData
+      );
+      alert(response.data);
+      setUpdateTable(true);
+    } catch (error) {
+      console.error("error al enviar solicitud:", error);
     }
+  };
 
   useEffect(() => {
     const getDataId = async () => {
-    try {
-        const response = await axios.get(`http://127.0.0.1:8000/api/empresas/${id}`);
-        
+      try {
+        const response = await axios.get(
+          `http://127.0.0.1:8000/api/empresas/${id}`
+        );
+
         console.log(setFormData);
         setFormData({
-          nombre: response.data?.nombre || '',
-          rubro: response.data?.rubro || '',
-          email: response.data?.email || '',
-          rif: response.data?.rif || '',
-          telefono: response.data?.telefono || ''
-          });
-    } catch (error) {
-        console.error('Error al obtener datos de la API para editar', error);
-    }
+          nombre: response.data?.nombre || "",
+          rubro: response.data?.rubro || "",
+          email: response.data?.email || "",
+          rif: response.data?.rif || "",
+          telefono: response.data?.telefono || "",
+        });
+      } catch (error) {
+        console.error("Error al obtener datos de la API para editar", error);
+      }
     };
     getDataId();
-}, [id]);
+  }, [id]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/api/empresas');
+        const response = await axios.get("http://127.0.0.1:8000/api/empresas");
         setDatos(response.data);
         setUpdateTable(false);
-
       } catch (error) {
-        console.error('Error al obtener datos de la API', error);
+        console.error("Error al obtener datos de la API", error);
       }
     };
 
     fetchData();
   }, [numero, updateTable]);
-  
+
   useEffect(() => {
     const deleteData = async () => {
       try {
-        const response = await axios.delete(`http://127.0.0.1:8000/api/empresas/${numero}`);
+        const response = await axios.delete(
+          `http://127.0.0.1:8000/api/empresas/${numero}`
+        );
         alert(response.data);
-        setUpdateTable(true); 
+        setUpdateTable(true);
       } catch (error) {
-        console.error('Error al borrar de la API', error);
+        console.error("Error al borrar de la API", error);
       }
     };
-    deleteData()
-    
+    deleteData();
   }, [numero]);
 
   const handleClick = (e) => {
     const number = e.target.value;
-    
+
     setId(number);
   };
   const handleDelete = (e) => {
     const number = e.target.value;
     setNumero(number);
-    
   };
 
-   const handleChange = (e) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -128,47 +136,40 @@ function Empresas() {
   return (
     <div className="flex">
       <div
-        className={`bg-gray-900 h-screen p-5 pt-8 ${
-          open ? "w-72" : "w-20"
-        } duration-300 relative`}
+        className={`bg-gray-900 h-screen p-5 pt-8 ${open ? "w-72" : "w-20"
+          } duration-300 relative`}
       >
         <FiArrowLeft
-          className={`bg-white text-gray-900 text-3xl rounded-full absolute -right-3 top-9 border border-gray-900 cursor-pointer ${
-            !open && "rotate-180"
-          } `}
+          className={`bg-white text-gray-900 text-3xl rounded-full absolute -right-3 top-9 border border-gray-900 cursor-pointer ${!open && "rotate-180"
+            } `}
           onClick={() => setOpen(!open)}
         />
         <div className="inline-flex">
           <CiShop
             className={` bg-amber-300 text-4xl rounded
-            cursor-pointer block float-left mr-2 duration-500 ${
-              open && "rotate-[360deg]"
-            }`}
+            cursor-pointer block float-left mr-2 duration-500 ${open && "rotate-[360deg]"
+              }`}
           />
           <h1
-            className={`text-white origin-right font-medium text-2xl duration-300 ${
-              !open && "scale-0"
-            }`}
+            className={`text-white origin-right font-medium text-2xl duration-300 ${!open && "scale-0"
+              }`}
           >
             logo empresa
           </h1>
         </div>
         <div
-          className={`flex items-center rounded-md bg-slate-700 mt-6 ${
-            !open ? "px-2.5" : "px-4"
-          } py-2`}
+          className={`flex items-center rounded-md bg-slate-700 mt-6 ${!open ? "px-2.5" : "px-4"
+            } py-2`}
         >
           <CiSearch
-            className={`text-white text-lg block float-left cursor-pointer ${
-              open && "mr-2"
-            } `}
+            className={`text-white text-lg block float-left cursor-pointer ${open && "mr-2"
+              } `}
           />
           <input
             type={"search"}
             placeholder="search"
-            className={`text-base bg-transparent w-full text-white focus:outline-none ${
-              !open && "hidden"
-            }`}
+            className={`text-base bg-transparent w-full text-white focus:outline-none ${!open && "hidden"
+              }`}
           />
         </div>
         <ul className="pt-2">
@@ -176,17 +177,15 @@ function Empresas() {
             <>
               <li
                 key={index}
-                className={`text-gray-300 text-sm flex items-center gap-x-4 cursor-pointer p-2 hover:bg-slate-700 rounded-md ${
-                  menu.spacing ? "mt-9 " : "mt-2"
-                } `}
+                className={`text-gray-300 text-sm flex items-center gap-x-4 cursor-pointer p-2 hover:bg-slate-700 rounded-md ${menu.spacing ? "mt-9 " : "mt-2"
+                  } `}
               >
                 <span className="text-2xl block float-left">
                   {menu.icon ? menu.icon : <MdSpaceDashboard />}
                 </span>
                 <span
-                  className={`text-base font-medium flex-1 duration-200 ${
-                    !open && "hidden"
-                  }`}
+                  className={`text-base font-medium flex-1 duration-200 ${!open && "hidden"
+                    }`}
                 >
                   {menu.title}
                 </span>
@@ -217,10 +216,11 @@ function Empresas() {
       </div>
       
       <div className="p-7">
-        <h1 className="text-2x1 font-semibold">Home page</h1>
+        <h1 className="text-2x1 font-semibold mb-5">Home page</h1>
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-          <div className="pb-4 bg-white dark:bg-gray-900">
-            <label className="sr-only">Search</label>
+          <div className="pb-4 bg-white dark:bg-gray-900 flex justify-between">
+            <label className="sr-only block">Search</label>
+            <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Crear</button>
             <div className="relative mt-1">
               <div className="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
                 <svg
@@ -236,7 +236,7 @@ function Empresas() {
                     strokeLinejoin="round"
                     strokeWidth="2"
                     d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-                    />
+                  />
                 </svg>
               </div>
               <>
@@ -267,7 +267,6 @@ function Empresas() {
                 <th scope="col" className="px-6 py-3">
                   nombre
                 </th>
-                
                 <th scope="col" className="px-6 py-3">
                   rubro
                 </th>
@@ -319,11 +318,7 @@ function Empresas() {
                   <td className="px-6 py-4 flex">
                     <button
                       className="font-medium text-blue-600 dark:text-blue-500 hover:underline p-1"
-                      onClick={(e) => [ 
-                        handleClick(e),
-                        setIsOpen(true)
-                        
-                      ]}
+                      onClick={(e) => [handleClick(e), setIsOpen(true)]}
                       value={dato.id}
                     >
                       Edit
@@ -345,60 +340,106 @@ function Empresas() {
       {isOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center">
           <div className="bg-white p-5 rounded flex flex-col justify-center items-center gap-5 border-2 img_glow ">
-            <div className="border-2 border-gray-600">
-              <form onSubmit={handleSubmit}>
-                <label>
-                  nombre:
+            <div>
+              <form onSubmit={handleSubmit} class="max-w-md mx-auto">
+                <div class="relative z-0 w-full mb-5 group">
                   <input
                     type="text"
                     name="nombre"
+                    id="nombre"
                     value={formData.nombre}
                     onChange={handleChange}
+                    class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    placeholder=" "
+                    required
                   />
-                </label>
-                <br />
-                <label>
-                  rubro:
+                  <label
+                    for="floating_email"
+                    class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                  >
+                    Nombre
+                  </label>
+                </div>
+                <div class="relative z-0 w-full mb-5 group">
                   <input
                     type="text"
                     name="rubro"
+                    id="rubro"
                     value={formData.rubro}
                     onChange={handleChange}
+                    class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    placeholder=" "
+                    required
                   />
-                </label>
-                <br />
-                <label>
-                  email:
+                  <label
+                    for="floating_password"
+                    class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                  >
+                    Rubro
+                  </label>
+                </div>
+                <div class="relative z-0 w-full mb-5 group">
                   <input
                     type="text"
                     name="email"
+                    id="email"
                     value={formData.email}
                     onChange={handleChange}
+                    class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    placeholder=" "
+                    required
                   />
-                </label>
-                <br />
-                <label>
-                  rif:
-                  <input
-                    type="text"
-                    name="rif"
-                    value={formData.rif}
-                    onChange={handleChange}
-                  />
-                </label>
-                <br />
-                <label>
-                  telefono:
-                  <input
-                    type="text"
-                    name="telefono"
-                    value={formData.telefono}
-                    onChange={handleChange}
-                  />
-                </label>
-                <br />
-
-                <button type="submit">Enviar</button>
+                  <label
+                    for="floating_repeat_password"
+                    class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                  >
+                    Email
+                  </label>
+                </div>
+                <div class="grid md:grid-cols-2 md:gap-6">
+                  <div class="relative z-0 w-full mb-5 group">
+                    <input
+                      type="text"
+                      name="rif"
+                      id="rif"
+                      value={formData.rif}
+                      onChange={handleChange}
+                      class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                      placeholder=" "
+                      required
+                    />
+                    <label
+                      for="floating_first_name"
+                      class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                    >
+                      Rif
+                    </label>
+                  </div>
+                  <div class="relative z-0 w-full mb-5 group">
+                    <input
+                      type="text"
+                      name="telefono"
+                      id="telefono"
+                      value={formData.telefono}
+                      onChange={handleChange}
+                      class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                      placeholder=" "
+                      required
+                    />
+                    <label
+                      for="floating_last_name"
+                      class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                    >
+                      telefono
+                    </label>
+                  </div>
+                </div>
+                <button
+                  type="submit"
+                  class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                >
+                  Guardar
+                </button>
               </form>
             </div>
             <button
