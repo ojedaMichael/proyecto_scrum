@@ -1,6 +1,5 @@
 import { useState,useEffect } from "react";
 import axios from 'axios';
-import { useState } from "react";
 import { FiArrowLeft } from "react-icons/fi";
 import { CiSearch,CiCircleChevDown,CiMenuBurger,CiPaperplane,CiViewList,CiLogout } from "react-icons/ci";
 import { CiShop } from "react-icons/ci";
