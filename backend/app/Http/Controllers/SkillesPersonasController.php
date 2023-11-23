@@ -16,7 +16,7 @@ class SkillesPersonasController extends Controller
     {
         $skillespersonas = skilles_personas::all();
         foreach ($skillespersonas as $skillespersona) {
-            $personas = $skillespersona->id_personas = personas::where('id', $skillespersona->id_personas)->get();
+            $skillespersona->id_personas = personas::where('id', $skillespersona->id_personas)->get();
             $skill = $skillespersona->id_skill = skilles::where('id', $skillespersona->id_skill)->get("nombre");  
             $skillespersona->id_skill = $skill[0]["nombre"];
         }
