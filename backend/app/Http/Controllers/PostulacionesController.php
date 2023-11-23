@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\empleos;
+use App\Models\personas;
 use App\Models\postulaciones;
 use Illuminate\Http\Request;
 
@@ -12,7 +14,12 @@ class PostulacionesController extends Controller
      */
     public function index()
     {
-        return postulaciones::all();
+        $postulacion = postulaciones::all();
+        foreach ($postulacion as $postular) {
+            $empleo = $postular->id_empleo = empleos::where('id', $postular->id_empleo)->get();
+            $persona = $postular->id_persona = personas::where('id', $postular->id_persona)->get();  
+        }
+        return $postulacion;
     }
 
     /**

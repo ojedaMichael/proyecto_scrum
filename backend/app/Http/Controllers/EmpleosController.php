@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\empleos;
+use App\Models\empresas;
 use Illuminate\Http\Request;
 
 class EmpleosController extends Controller
@@ -12,7 +13,12 @@ class EmpleosController extends Controller
      */
     public function index()
     {
-        return empleos::all();
+        $empleos = empleos::all();
+        foreach ($empleos as $empleo) {
+            $empresa = $empleo->idEmpresa = empresas::where('id', $empleo->idEmpresa)->get("nombre");
+            $empleo->idEmpresa = $empresa[0]['nombre'];
+        }
+        return $empleos;
     }
 
     /**
