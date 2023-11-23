@@ -1,13 +1,23 @@
+import { useState,useEffect } from "react";
+import axios from 'axios';
 import { useState } from "react";
-
 import { FiArrowLeft } from "react-icons/fi";
 import { CiSearch,CiCircleChevDown,CiMenuBurger,CiPaperplane,CiViewList,CiLogout } from "react-icons/ci";
 import { CiShop } from "react-icons/ci";
 import { MdSpaceDashboard } from "react-icons/md";
 import { Link } from "react-router-dom";
+
+
 function personas() {
+  const [numero, setNumero] = useState("");
+  const [id, setId] = useState("");
   const [open, setOpen] = useState(true);
   const [submenuOpen, setSubmenuOpen] = useState(false);
+  const [datos, setDatos] = useState([]);
+  const [isOpen, setIsOpen] = useState(false)
+  const [updateTable, setUpdateTable] = useState(false);
+ 
+ 
   const Menu = [
     { link: "/dashboard", title: <Link to="/dashboard">Dashboard</Link> },
     { title: "Pages", icon:<CiMenuBurger /> },
@@ -28,6 +38,104 @@ function personas() {
     { title: "Setting" },
     {title: "Logout",icon:<CiLogout /> },
   ];
+
+
+  const [formData, setFormData] = useState({
+    nombre: '',
+    apellido: '',
+    email: '',
+    dni: '',
+    telefono: '',
+    password: ''
+  });
+
+  const handleSubmit = async (e) => {
+
+    e.preventDefault();
+
+    try {
+
+        const response = await axios.put(`http://127.0.0.1:8000/api/personas/{id}`, formData)
+        alert(response.data)
+        setUpdateTable(true);
+        
+    } catch (error) {
+        console.error('error al enviar solicitud:', error)
+    }
+}
+
+
+  useEffect(() => {
+    const getDataId = async () => {
+    try {
+        const response = await axios.get(`http://127.0.0.1:8000/api/personas/{id}`);
+        
+        console.log(setFormData);
+        setFormData({
+          nombre: response.data?.nombre || '',
+          apellido: response.data?.apellido || '',
+          email: response.data?.email || '',
+          dni: response.data?.dni || '',
+          telefono: response.data?.telefono || '',
+          password: response.data?.password || ''
+          });
+    } catch (error) {
+        console.error('Error al obtener datos de la API para editar', error);
+    }
+    };
+    getDataId();
+  }, [id]);
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://127.0.0.1:8000/api/personas');
+        setDatos(response.data);
+        setUpdateTable(false);
+
+      } catch (error) {
+        console.error('Error al obtener datos de la API', error);
+      }
+    };
+
+    fetchData();
+  }, [numero, updateTable]);
+
+  useEffect(() => {
+    const deleteData = async () => {
+      try {
+        const response = await axios.delete(`http://127.0.0.1:8000/api/personas/${numero}`);
+        alert(response.data);
+        setUpdateTable(true); 
+      } catch (error) {
+        console.error('Error al borrar de la API', error);
+      }
+    };
+    deleteData()
+    
+  }, [numero]);
+
+  const handleClick = (e) => {
+    const number = e.target.value;
+    
+    setId(number);
+  };
+  const handleDelete = (e) => {
+    const number = e.target.value;
+    setNumero(number);
+    
+  };
+
+   const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+
   return (
     <div className="flex">
       <div
@@ -82,85 +190,216 @@ function personas() {
           )}
         </ul>
       </div>
+
+
       <div className="p-7">
         <h1 className="text-2x1 font-semibold">Home page</h1>     
-        <section>
-  <div className="relative items-center w-full px-5 py-12 mx-auto md:px-12 lg:px-24 max-w-7xl">
-    <div className="grid grid-cols-1">
-      <div className="w-full max-w-lg mx-auto my-4 bg-white shadow-xl rounded-xl">
-        <div className="p-6 lg:text-center">
-          <span className="mb-8 text-xs font-semibold tracking-widest text-blue-600 uppercase"> Info</span>
-          <h4 className="mt-8 text-2xl font-semibold leading-none tracking-tighter text-neutral-600 lg:text-3xl">Can you rate your experience?</h4>
-          <p className="mt-3 text-base leading-relaxed text-gray-500">Free and Premium themes, UI Kits, templates and landing pages built with Tailwind CSS, HTML &amp; Next.js.</p>
-          <div className="flex justify-center gap-1 mt-6">
-            <svg className="w-6 h-6 text-yellow-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-            </svg>
-            <svg className="w-6 h-6 text-yellow-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-            </svg>
-            <svg className="w-6 h-6 text-yellow-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-            </svg>
-            <svg className="w-6 h-6 text-blueGray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-            </svg>
-            <svg className="w-6 h-6 text-blueGray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-            </svg>
-          </div>
-          <div className="flex gap-2 mt-6 max-w-7xl lg:justify-center">
-            <div className="mt-3 rounded-lg sm:mt-0">
-              <button className="items-center block px-10 py-3.5 text-base font-medium text-center text-blue-600 transition duration-500 ease-in-out transform border-2 border-white shadow-md rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">Decline</button>
-            </div>
-            <div className="mt-3 rounded-lg sm:mt-0 sm:ml-3">
-              <button className="items-center block px-10 py-4 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Accept</button>
+       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+          <div className="pb-4 bg-white dark:bg-gray-900">
+            <label className="sr-only">Search</label>
+            <div className="relative mt-1">
+              <div className="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
+                <svg
+                  className="w-4 h-4 text-gray-500 dark:text-gray-400"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                    />
+                </svg>
+              </div>
+              <>
+                <input
+                  type="text"
+                  id="table-search"
+                  className="block pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder="Search for items"
+                ></input>
+              </>
             </div>
           </div>
+          <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <tr>
+                <th scope="col" className="p-4">
+                  <div className="flex items-center">
+                    <>
+                      <input
+                        id="checkbox-all-search"
+                        type="checkbox"
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                      ></input>
+                    </>
+                    <label className="sr-only">checkbox</label>
+                  </div>
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Nombre:
+                </th>
+                
+                <th scope="col" className="px-6 py-3">
+                  Apellido:
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Email:
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  DNI:
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Telefono:
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Password:
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Action
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {datos.map((dato, i) => (
+                <tr
+                  key={i}
+                  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                >
+                  <td className="w-4 p-4">
+                    <div className="flex items-center">
+                      <input
+                        id={`checkbox-table-search-${dato.id}`}
+                        type="checkbox"
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                      />
+                      <label
+                        htmlFor={`checkbox-table-search-${dato.id}`}
+                        className="sr-only"
+                      >
+                        checkbox
+                      </label>
+                    </div>
+                  </td>
+                  <th
+                    scope="row"
+                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  >
+                    {dato.nombre}
+                  </th>
+                  <td className="px-6 py-4">{dato.apellido}</td>
+                  <td className="px-6 py-4">{dato.email}</td>
+                  <td className="px-6 py-4">{dato.dni}</td>
+                  <td className="px-6 py-4">{dato.telefono}</td>
+                  <td className="px-6 py-4">{dato.password}</td>
+                  <td className="px-6 py-4 flex">
+                    <button
+                      className="font-medium text-blue-600 dark:text-blue-500 hover:underline p-1"
+                      onClick={(e) => [ 
+                        handleClick(e),
+                        setIsOpen(true)
+                        
+                      ]}
+                      value={dato.id}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="font-medium text-red-600 dark:text-red-500 hover:underline p-1"
+                      onClick={handleDelete}
+                      value={dato.id}
+                    >
+                      Remove
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
-    </div>
-  </div>
-        </section>
-        <section>
-  <div className="relative items-center w-full px-5 py-12 mx-auto md:px-12 lg:px-24 max-w-7xl">
-    <div className="grid grid-cols-1">
-      <div className="w-full max-w-lg mx-auto my-4 bg-white shadow-xl rounded-xl">
-        <div className="p-6 lg:text-center">
-          <span className="mb-8 text-xs font-semibold tracking-widest text-blue-600 uppercase"> Info</span>
-          <h4 className="mt-8 text-2xl font-semibold leading-none tracking-tighter text-neutral-600 lg:text-3xl">Can you rate your experience?</h4>
-          <p className="mt-3 text-base leading-relaxed text-gray-500">Free and Premium themes, UI Kits, templates and landing pages built with Tailwind CSS, HTML &amp; Next.js.</p>
-          <div className="flex justify-center gap-1 mt-6">
-            <svg className="w-6 h-6 text-yellow-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-            </svg>
-            <svg className="w-6 h-6 text-yellow-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-            </svg>
-            <svg className="w-6 h-6 text-yellow-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-            </svg>
-            <svg className="w-6 h-6 text-blueGray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-            </svg>
-            <svg className="w-6 h-6 text-blueGray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-            </svg>
-          </div>
-          <div className="flex gap-2 mt-6 max-w-7xl lg:justify-center">
-            <div className="mt-3 rounded-lg sm:mt-0">
-              <button className="items-center block px-10 py-3.5 text-base font-medium text-center text-blue-600 transition duration-500 ease-in-out transform border-2 border-white shadow-md rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">Decline</button>
+      {isOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center">
+          <div className="bg-white p-5 rounded flex flex-col justify-center items-center gap-5 border-2 img_glow ">
+            <div className="border-2 border-gray-600">
+              <form onSubmit={handleSubmit}>
+                <label>
+                  nombre:
+                  <input
+                    type="text"
+                    name="nombre"
+                    value={formData.nombre}
+                    onChange={handleChange}
+                  />
+                </label>
+                <br />
+                <label>
+                  Apellido:
+                  <input
+                    type="text"
+                    name="apellido"
+                    value={formData.apellido}
+                    onChange={handleChange}
+                  />
+                </label>
+                <br />
+                <label>
+                  Email:
+                  <input
+                    type="text"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                  />
+                </label>
+                <br />
+                <label>
+                  DNI:
+                  <input
+                    type="text"
+                    name="dni"
+                    value={formData.dni}
+                    onChange={handleChange}
+                  />
+                </label>
+                <br />
+                <label>
+                  Telefono:
+                  <input
+                    type="text"
+                    name="telefono"
+                    value={formData.telefono}
+                    onChange={handleChange}
+                  />
+                </label>
+                <br />
+                <label>
+                  Password:
+                  <input
+                    type="text"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                  />
+                </label>
+                <br />
+
+                <button type="submit">Enviar</button>
+              </form>
             </div>
-            <div className="mt-3 rounded-lg sm:mt-0 sm:ml-3">
-              <button className="items-center block px-10 py-4 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Accept</button>
-            </div>
+            <button
+              onClick={() => setIsOpen(false)}
+              className="bg-red-500 p-2 rounded-md text-white"
+            >
+              cerrar
+            </button>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-        </section>
-      </div>    
+      )}
     </div>
   );
 }
