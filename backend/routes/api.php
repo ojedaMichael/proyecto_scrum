@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EmpleosController;
 use App\Http\Controllers\EmpresasController;
 use App\Http\Controllers\PersonasController;
 use App\Http\Controllers\PostulacionesController;
@@ -62,4 +63,12 @@ Route::controller(SkillesPersonasController::class)->group(function () {
     Route::post('/skillespersonas', 'store');
     Route::put('/skillespersonas/{id}', 'update');
     Route::delete('/skillespersonas/{id}', 'destroy');
+});
+
+Route::controller(EmpleosController::class)->group(function () {
+    Route::get('/empleos', 'index');
+    Route::get('/empleos/{id}', 'show');
+    Route::post('/empleos', 'store');
+    Route::put('/empleos/{id}', 'update');
+    Route::delete('/empleos/{id}', 'destroy');
 });
