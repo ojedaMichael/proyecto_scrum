@@ -205,8 +205,8 @@ function Empleos() {
           <tbody>
             {empleosData?.map((empleos) => (
               <>
-                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                  <td className="w-4 p-4">
+                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600" key={empleos.id}>
+                  <td className="w-4 p-4" >
                     <div className="flex items-center">
                       <input
                         id="checkbox-table-search-1"
@@ -222,7 +222,6 @@ function Empleos() {
                     </div>
                   </td>
                   <th
-                    key={empleos.id}
                     scope="row"
                     className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                   >
@@ -242,10 +241,13 @@ function Empleos() {
                       Edit
                     </a>
                     <form onSubmit={handleSubmit}>
-                    <button type="submit" className="font-medium text-red-600 dark:text-red-500 hover:underline ms-3">
-                      Remove
-                      <input type="text" value={empleos.id} hidden />
-                    </button>
+                      <button
+                        type="submit"
+                        className="font-medium text-red-600 dark:text-red-500 hover:underline ms-3"
+                      >
+                        Remove
+                        <input type="text" defaultValue={empleos.id} hidden />
+                      </button>
                     </form>
                   </td>
                 </tr>
