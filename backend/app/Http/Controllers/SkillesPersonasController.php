@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\personas;
+use App\Models\skilles;
 use App\Models\skilles_personas;
 use Illuminate\Http\Request;
 
@@ -12,7 +14,13 @@ class SkillesPersonasController extends Controller
      */
     public function index()
     {
-        return skilles_personas::all();
+        $skillespersonas = skilles_personas::all();
+        foreach ($skillespersonas as $skillespersona) {
+            $personas = $skillespersona->id_personas = personas::where('id', $skillespersona->id_personas)->get();
+            $skill = $skillespersona->id_skill = skilles::where('id', $skillespersona->id_skill)->get("nombre");  
+            $skillespersona->id_skill = $skill[0]["nombre"];
+        }
+        return $skillespersonas;
     }
 
     /**
