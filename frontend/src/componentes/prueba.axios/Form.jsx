@@ -24,7 +24,7 @@ function Form() {
 
         try {
 
-            const response = await axios.delete('http://127.0.0.1:8000/api/empresas/12')
+            const response = await axios.post('http://127.0.0.1:8000/api/empresas/12')
             console.log(response.data)
             
         } catch (error) {
