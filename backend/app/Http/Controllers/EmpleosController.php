@@ -49,9 +49,9 @@ class EmpleosController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(empleos $empleos)
+    public function show($id)
     {
-        //
+        return empleos::find($id);
     }
 
     /**

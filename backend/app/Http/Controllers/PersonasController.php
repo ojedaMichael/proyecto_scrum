@@ -68,7 +68,7 @@ class PersonasController extends Controller
     {
         $personas = personas::find($id);
         $personas->nombre = $request->nombre;
-        $personas->apellido = $request->rubro;
+        $personas->apellido = $request->apellido;
         $personas->email = $request->email;
         $personas->dni = $request->dni;
         $personas->telefono = $request->telefono;
