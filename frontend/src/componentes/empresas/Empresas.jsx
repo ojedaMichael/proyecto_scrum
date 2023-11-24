@@ -215,7 +215,6 @@ function Empresas() {
           ))}
         </ul>
       </div>
-      
       <div className="p-7">
         <h1 className="text-2x1 font-semibold">Home page</h1>
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">

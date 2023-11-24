@@ -1,6 +1,5 @@
 import { useState,useEffect } from "react";
 import axios from 'axios';
-import { useState } from "react";
 import { FiArrowLeft } from "react-icons/fi";
 import { CiSearch,CiCircleChevDown,CiMenuBurger,CiPaperplane,CiViewList,CiLogout } from "react-icons/ci";
 import { CiShop } from "react-icons/ci";
@@ -9,13 +8,12 @@ import { Link } from "react-router-dom";
 
 
 function personas() {
-  const [numero, setNumero] = useState("");
-  const [id, setId] = useState("");
+
   const [open, setOpen] = useState(true);
   const [submenuOpen, setSubmenuOpen] = useState(false);
   const [datos, setDatos] = useState([]);
   const [isOpen, setIsOpen] = useState(false)
-  const [updateTable, setUpdateTable] = useState(false);
+
  
  
   const Menu = [
@@ -39,101 +37,22 @@ function personas() {
     {title: "Logout",icon:<CiLogout /> },
   ];
 
-
-  const [formData, setFormData] = useState({
-    nombre: '',
-    apellido: '',
-    email: '',
-    dni: '',
-    telefono: '',
-    password: ''
-  });
-
-  const handleSubmit = async (e) => {
-
-    e.preventDefault();
-
-    try {
-
-        const response = await axios.put(`http://127.0.0.1:8000/api/personas/{id}`, formData)
-        alert(response.data)
-        setUpdateTable(true);
-        
-    } catch (error) {
-        console.error('error al enviar solicitud:', error)
-    }
-}
-
-
   useEffect(() => {
-    const getDataId = async () => {
-    try {
-        const response = await axios.get(`http://127.0.0.1:8000/api/personas/{id}`);
-        
-        console.log(setFormData);
-        setFormData({
-          nombre: response.data?.nombre || '',
-          apellido: response.data?.apellido || '',
-          email: response.data?.email || '',
-          dni: response.data?.dni || '',
-          telefono: response.data?.telefono || '',
-          password: response.data?.password || ''
-          });
-    } catch (error) {
-        console.error('Error al obtener datos de la API para editar', error);
-    }
-    };
-    getDataId();
-  }, [id]);
-
-
-  useEffect(() => {
-    const fetchData = async () => {
+    async function fetchData() {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/api/personas');
-        setDatos(response.data);
-        setUpdateTable(false);
-
+        const response = await axios.get('http://127.0.0.1:8000/api/personas'); // Realiza la solicitud GET para obtener datos
+        setDatos(response.data); // Establece los datos en el estado
       } catch (error) {
-        console.error('Error al obtener datos de la API', error);
+        console.error('Error al obtener los datos:', error);
       }
-    };
+    }
 
-    fetchData();
-  }, [numero, updateTable]);
+    fetchData(); 
+  }, []); 
 
-  useEffect(() => {
-    const deleteData = async () => {
-      try {
-        const response = await axios.delete(`http://127.0.0.1:8000/api/personas/${numero}`);
-        alert(response.data);
-        setUpdateTable(true); 
-      } catch (error) {
-        console.error('Error al borrar de la API', error);
-      }
-    };
-    deleteData()
-    
-  }, [numero]);
 
-  const handleClick = (e) => {
-    const number = e.target.value;
-    
-    setId(number);
-  };
-  const handleDelete = (e) => {
-    const number = e.target.value;
-    setNumero(number);
-    
-  };
 
-   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
+
 
 
   return (
@@ -265,9 +184,9 @@ function personas() {
               </tr>
             </thead>
             <tbody>
-              {datos.map((dato, i) => (
+              {datos.map((dato, index) => (
                 <tr
-                  key={i}
+                  key={index}
                   className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                 >
                   <td className="w-4 p-4">
