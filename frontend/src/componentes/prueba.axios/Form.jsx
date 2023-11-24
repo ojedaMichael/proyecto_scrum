@@ -33,6 +33,7 @@ function Form() {
     }
   return (
     <form onSubmit={handleSubmit}>
+        
         <label>
             nombre:
             <input type="text" name="nombre" value={formData.nombre} onChange={handleChange}/>

@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Http\Controllers\Controller;
 use App\Models\personas;
 use Illuminate\Http\Request;
+
 
 class PersonasController extends Controller
 {
@@ -47,6 +48,11 @@ class PersonasController extends Controller
         return personas::find($id);
     }
 
+    public function showname(Request $request)
+    {
+        return personas::where('email', $request->email)->get();
+    }
+
     /**
      * Show the form for editing the specified resource.
      */
@@ -58,7 +64,7 @@ class PersonasController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
         $personas = personas::find($id);
         $personas->nombre = $request->nombre;
@@ -76,9 +82,8 @@ class PersonasController extends Controller
      */
     public function destroy($id)
     {
-        $personas= personas::find($id);
+        $personas = personas::find($id);
         $personas->delete();
         return "eliminado correcto";
-
     }
 }
