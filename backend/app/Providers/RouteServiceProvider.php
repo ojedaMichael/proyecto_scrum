@@ -10,6 +10,14 @@ use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider
 {
+    protected $middlewareGroups = [
+        'web' => [
+            // ...
+            \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
+        ],
+    
+        // ...
+    ];
     /**
      * The path to your application's "home" route.
      *
