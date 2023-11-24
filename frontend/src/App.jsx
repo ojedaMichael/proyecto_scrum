@@ -4,6 +4,7 @@ import Dashboard from "./componentes/dashboard/Dashboard.jsx";
 import Empresas from './componentes/empresas/Empresas.jsx';
 import Personas from './componentes/Personas/personas';
 import Empleos from './componentes/empleos/Empleos.jsx';
+import Postulacion from './componentes/postulaciones/postulacion.jsx';
 function App() {
   return (
     <>
@@ -15,7 +16,7 @@ function App() {
         <Route path="/empresas" element={<Empresas/>}/>
         <Route path="/personas" element={<Personas/>}/>
         <Route path="/empleos" element={<Empleos/>}/>
-       
+        <Route path="/postulacion" element={<Postulacion/>}/>
       </Routes>
      </BrowserRouter>
 
