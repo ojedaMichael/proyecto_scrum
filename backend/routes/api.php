@@ -1,5 +1,4 @@
-<?php
-
+<?
 use App\Http\Controllers\EmpleosController;
 use App\Http\Controllers\EmpresasController;
 use App\Http\Controllers\PersonasController;
@@ -7,6 +6,8 @@ use App\Http\Controllers\PostulacionesController;
 use App\Http\Controllers\SkillesController;
 use App\Http\Controllers\SkillesPersonasController;
 use Database\Seeders\EmpresasSeeder;
+
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -25,6 +26,7 @@ use App\Http\Controllers\AuthController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
 
 Route::controller(EmpresasController::class)->group(function () {
     Route::get('/empresas', 'index');
@@ -76,3 +78,5 @@ Route::controller(EmpleosController::class)->group(function () {
 });
 
 Route::post('/login', [AuthController::class, 'login']);
+
+
