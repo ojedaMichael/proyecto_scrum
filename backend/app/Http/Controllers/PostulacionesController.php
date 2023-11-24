@@ -19,10 +19,12 @@ class PostulacionesController extends Controller
         foreach ($postulacion as $postular) {
             $empleo =  empleos::where('id', $postular->id_empleo)->get();
             $empresa = empleos::where('id', $postular->id_empleo)->get('idEmpresa');
-            $empresaname = empresas::where('id' , $empresa[0]["idEmpresa"])->get ('nombre');
-            $postular->id_empleo = [$empresaname[0] . $empleo[0]];
+            $empresaname = empresas::where('id' , $empresa[0]["idEmpresa"])->get('nombre');
+            $empleo[0]->idEmpresa= $empresaname[0]["nombre"];
+            $postular->id_empleo = $empleo;
 
-            $persona = $postular->id_persona = personas::where('id', $postular->id_persona)->get();  
+
+            $persona = $postular->id_persona = personas::where('id', $postular->id_persona)->get();
         }
         return $postulacion;
     }
