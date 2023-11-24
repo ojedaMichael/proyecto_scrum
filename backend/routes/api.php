@@ -9,6 +9,7 @@ use App\Http\Controllers\SkillesPersonasController;
 use Database\Seeders\EmpresasSeeder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +37,7 @@ Route::controller(EmpresasController::class)->group(function () {
 Route::controller(PersonasController::class)->group(function () {
     Route::get('/personas', 'index');
     Route::get('/personas/{id}', 'show');
+    Route::get('/login2', 'showname');
     Route::post('/personas', 'store');
     Route::put('/personas/{id}', 'update');
     Route::delete('/personas/{id}', 'destroy');
@@ -72,3 +74,5 @@ Route::controller(EmpleosController::class)->group(function () {
     Route::put('/empleos/{id}', 'update');
     Route::delete('/empleos/{id}', 'destroy');
 });
+
+Route::post('/login', [AuthController::class, 'login']);

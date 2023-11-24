@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\empleos;
+use App\Models\empresas;
 use App\Models\personas;
 use App\Models\postulaciones;
 use Illuminate\Http\Request;
@@ -16,7 +17,11 @@ class PostulacionesController extends Controller
     {
         $postulacion = postulaciones::all();
         foreach ($postulacion as $postular) {
-            $empleo = $postular->id_empleo = empleos::where('id', $postular->id_empleo)->get();
+            $empleo =  empleos::where('id', $postular->id_empleo)->get();
+            $empresa = empleos::where('id', $postular->id_empleo)->get('idEmpresa');
+            $empresaname = empresas::where('id' , $empresa[0]["idEmpresa"])->get ('nombre');
+            $postular->id_empleo = [$empresaname[0] . $empleo[0]];
+
             $persona = $postular->id_persona = personas::where('id', $postular->id_persona)->get();  
         }
         return $postulacion;
