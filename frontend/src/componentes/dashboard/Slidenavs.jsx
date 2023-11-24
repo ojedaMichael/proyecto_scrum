@@ -33,7 +33,11 @@ function Slidenavs() {
       title: <Link to="/personas">Personas</Link>,
       icon: <CiViewList />,
     },
-    { title: "Logout", icon: <CiLogout /> },
+    {
+      link: "/personas",
+      itle: <Link to="/personas">Log_Out</Link>,
+      icon: <CiLogout />,
+    },
   ];
   return (
     <div className="flex">
