@@ -44,10 +44,11 @@ function postulacion() {
 
   const [formData, setFormData] = useState({
     nombre: "",
-    rubro: "",
-    email: "",
-    rif: "",
-    telefono: "",
+    cargo: "",
+    detallesEmpleo: "",
+    requisitos: "",
+    modalidad: "",
+    salario: "",
   });
 
   const handleSubmit = async (e) => {
@@ -55,7 +56,7 @@ function postulacion() {
 
     try {
       const response = await axios.put(
-        `http://127.0.0.1:8000/api/empresas/${id}`,
+        `http://127.0.0.1:8000/api/postulaciones/${id}`,
         formData
       );
       alert(response.data);
@@ -69,16 +70,17 @@ function postulacion() {
     const getDataId = async () => {
       try {
         const response = await axios.get(
-          `http://127.0.0.1:8000/api/empresas/${id}`
+          `http://127.0.0.1:8000/api/postulaciones/${id}`
         );
 
         console.log(setFormData);
         setFormData({
           nombre: response.data?.nombre || "",
-          rubro: response.data?.rubro || "",
-          email: response.data?.email || "",
-          rif: response.data?.rif || "",
-          telefono: response.data?.telefono || "",
+          cargo: response.data?.cargo || "",
+          detallesEmpleo: response.data?.detallesEmpleo || "",
+          requisitos: response.data?.requisitos || "",
+          modalidad: response.data?.modalidad || "",
+          salario: response.data?.salario || "",
         });
       } catch (error) {
         console.error("Error al obtener datos de la API para editar", error);
@@ -283,19 +285,25 @@ function postulacion() {
                   nombre
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  rubro
+                  Cargo
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  email
+                  Detalles Empleo
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  rift
+                  Requisitos
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  telefono
+                  Modalidad
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Action
+                  Salario
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Postulante
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Actions
                 </th>
               </tr>
             </thead>
@@ -324,25 +332,16 @@ function postulacion() {
                     scope="row"
                     className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                   >
-                    {dato.nombre}
+                    {dato.id_empleo[0]['idEmpresa']}
                   </th>
-                  <td className="px-6 py-4">{dato.rubro}</td>
-                  <td className="px-6 py-4">{dato.email}</td>
-                  <td className="px-6 py-4">{dato.rif}</td>
-                  <td className="px-6 py-4">{dato.telefono}</td>
-                  <td className="px-6 py-4 flex">
-                    <button
-                      className="font-medium text-blue-600 dark:text-blue-500 hover:underline p-1"
-                      onClick={(e) => [handleClick(e), setIsOpen(true)]}
-                      value={dato.id}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className="font-medium text-red-600 dark:text-red-500 hover:underline p-1"
-                      onClick={handleDelete}
-                      value={dato.id}
-                    >
+                  <td className="px-6 py-4">{dato.id_empleo[0]['cargo']}</td>
+                  <td className="px-6 py-4">{dato.id_empleo[0]['detallesEmpleo']}</td>
+                  <td className="px-6 py-4">{dato.id_empleo[0]['requisitos']}</td>
+                  <td className="px-6 py-4">{dato.id_empleo[0]['modalidad']}</td>
+                  <td className="px-6 py-4">{dato.id_empleo[0]['salario']}</td>
+                  <td className="px-6 py-4">{dato.id_persona[0]['nombre']}</td>
+                  <td className="px-6 py-4">{dato.salario}</td>
+                  <td className="px-6 py-4 flex"><button className="font-medium text-blue-600 dark:text-blue-500 hover:underline p-1"onClick={(e) => [handleClick(e), setIsOpen(true)]}value={dato.id}>Edit</button><button className="font-medium text-red-600 dark:text-red-500 hover:underline p-1"onClick={handleDelete}value={dato.id}>
                       Remove
                     </button>
                   </td>
@@ -380,7 +379,7 @@ function postulacion() {
                     type="text"
                     name="rubro"
                     id="rubro"
-                    value={formData.rubro}
+                    value={formData.cargo}
                     onChange={handleChange}
                     class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
@@ -398,7 +397,7 @@ function postulacion() {
                     type="text"
                     name="email"
                     id="email"
-                    value={formData.email}
+                    value={formData.requisitos}
                     onChange={handleChange}
                     class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
@@ -417,7 +416,7 @@ function postulacion() {
                       type="text"
                       name="rif"
                       id="rif"
-                      value={formData.rif}
+                      value={formData.modalidad}
                       onChange={handleChange}
                       class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                       placeholder=" "
@@ -435,7 +434,7 @@ function postulacion() {
                       type="text"
                       name="telefono"
                       id="telefono"
-                      value={formData.telefono}
+                      value={formData.salario}
                       onChange={handleChange}
                       class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                       placeholder=" "
