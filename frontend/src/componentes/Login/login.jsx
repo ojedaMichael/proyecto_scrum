@@ -1,9 +1,11 @@
+import Perfil from "../Perfil/Perfil";
 import LoginServices from "./LoginServices";
 
 function Login() {
-  const { handleInputChange, handleLogin } = LoginServices();
+  const { handleInputChange, handleLogin, user } = LoginServices();
   return (
     <>
+    {user && user ? <Perfil user={user}></Perfil>: ""}
       <h1>login</h1>
       <section>
         <div className="px-4 py-12 mx-auto max-w-7xl sm:px-6 md:px-12 lg:px-24 lg:py-24">

@@ -12,7 +12,9 @@ import {
 import { CiShop } from "react-icons/ci";
 import { MdSpaceDashboard } from "react-icons/md";
 import { Link } from "react-router-dom";
+import LogOut from "../Login/LogOut";
 function Empresas() {
+  const { LogoutButton } = LogOut();
   const [numero, setNumero] = useState("");
   const [id, setId] = useState("");
   const [open, setOpen] = useState(true);
@@ -24,23 +26,27 @@ function Empresas() {
 
   const Menu = [
     { link: "/dashboard", title: <Link to="/dashboard">Dashboard</Link> },
-    { title: "Empresa", icon: <CiMenuBurger /> },
-    { title: "Media", icon: <CiPaperplane />, spacing: true },
     {
-      title: "Projects",
-      icon: <CiViewList />,
-      submenu: true,
-      submenuItems: [
-        { title: "Submenu 1" },
-        { title: "Submenu 2" },
-        { title: "Submenu 3" },
-      ],
+      link: "/perfil",
+      title: <Link to="/perfil">Perfil</Link>,
+      icon: <CiMenuBurger />,
     },
-    { title: "Analytics" },
-    { title: "Inbox" },
-    { title: "Profile", spacing: true },
-    { title: "Setting" },
-    { title: "Logout", icon: <CiLogout /> },
+    {
+      link: "/empresas",
+      title: <Link to="/empresas">Empresas</Link>,
+      icon: <CiPaperplane />,
+      spacing: true,
+    },
+    {
+      link: "/empleos",
+      title: <Link to="/empleos">Empleos</Link>,
+      icon: <CiViewList />,
+    },
+    {
+      link: "/personas",
+      title: <Link to="/personas">Personas</Link>,
+      icon: <CiViewList />,
+    },
   ];
 
   const [formData, setFormData] = useState({
@@ -229,6 +235,21 @@ function Empresas() {
             </>
           ))}
         </ul>
+        <li
+          className={`text-gray-300 text-sm flex items-center gap-x-4 mt-6 cursor-pointer p-2 hover:bg-slate-700 rounded-md`}
+        >
+          <span className="text-2xl block float-left">
+            <CiLogout />
+          </span>
+          <button
+            onClick={LogoutButton}
+            className={`text-left text-base font-medium flex-1 duration-200 ${
+              !open && "hidden"
+            }`}
+          >
+            LogOut
+          </button>
+        </li>
       </div>
       
       <div className="p-7">

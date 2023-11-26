@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { FiArrowLeft } from "react-icons/fi";
+import React from "react";
 import {
   CiSearch,
   CiCircleChevDown,
@@ -11,12 +12,20 @@ import {
 import { CiShop } from "react-icons/ci";
 import { MdSpaceDashboard } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { useUser } from "../Login/UserContext";
+import LogOut from "../Login/LogOut";
 function Slidenavs() {
+  const { user } = useUser();
+  const { LogoutButton } = LogOut();
   const [open, setOpen] = useState(true);
   const [submenuOpen, setSubmenuOpen] = useState(false);
   const Menu = [
     { link: "/dashboard", title: <Link to="/dashboard">Dashboard</Link> },
-    { title: "Perfil", icon: <CiMenuBurger /> },
+    {
+      link: "/perfil",
+      title: <Link to="/perfil">Perfil</Link>,
+      icon: <CiMenuBurger />,
+    },
     {
       link: "/empresas",
       title: <Link to="/empresas">Empresas</Link>,
@@ -32,11 +41,6 @@ function Slidenavs() {
       link: "/personas",
       title: <Link to="/personas">Personas</Link>,
       icon: <CiViewList />,
-    },
-    {
-      link: "/personas",
-      itle: <Link to="/personas">Log_Out</Link>,
-      icon: <CiLogout />,
     },
   ];
   return (
@@ -85,56 +89,74 @@ function Slidenavs() {
             }`}
           />
         </div>
-        <ul className="pt-2">
+        <ul className="pt-2" key="20">
           {Menu.map((menu, index) => (
-            <>
-              <li
-                key={index}
-                className={`text-gray-300 text-sm flex items-center gap-x-4 cursor-pointer p-2 hover:bg-slate-700 rounded-md ${
-                  menu.spacing ? "mt-9 " : "mt-2"
-                } `}
-              >
-                <span className="text-2xl block float-left">
-                  {menu.icon ? menu.icon : <MdSpaceDashboard />}
-                </span>
-                <span
-                  className={`text-base font-medium flex-1 duration-200 ${
-                    !open && "hidden"
-                  }`}
+            <React.Fragment key={index}>
+              <>
+                <li
+                  key={index}
+                  className={`text-gray-300 text-sm flex items-center gap-x-4 cursor-pointer p-2 hover:bg-slate-700 rounded-md ${
+                    menu.spacing ? "mt-9 " : "mt-2"
+                  } `}
                 >
-                  {menu.title}
-                </span>
-                <span>
-                  {menu.submenu && open && (
-                    <CiCircleChevDown
-                      className={`${setSubmenuOpen && "rotate-180"}`}
-                      onClick={() => setSubmenuOpen(!submenuOpen)}
-                    />
-                  )}
-                </span>
-              </li>
-              {menu.submenu && submenuOpen && open && (
-                <ul>
-                  {menu.submenuItems.map((submenuItems, index) => (
-                    <li
-                      key={index}
-                      className="text-gray-300 text-sm flex items-center gap-x-4 cursor-pointer p-2 px-5 hover:bg-slate-700 rounded-md"
-                    >
-                      {submenuItems.title}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </>
+                  <span className="text-2xl block float-left">
+                    {menu.icon ? menu.icon : <MdSpaceDashboard />}
+                  </span>
+                  <span
+                    key={index}
+                    className={`text-base font-medium flex-1 duration-200 ${
+                      !open && "hidden"
+                    }`}
+                  >
+                    {menu.title}
+                  </span>
+                  <span>
+                    {menu.submenu && open && (
+                      <CiCircleChevDown
+                        className={`${setSubmenuOpen && "rotate-180"}`}
+                        onClick={() => setSubmenuOpen(!submenuOpen)}
+                      />
+                    )}
+                  </span>
+                </li>
+                {menu.submenu && submenuOpen && open && (
+                  <ul key={`submenu-${menu.title}`}>
+                    {menu.submenuItems.map((submenuItems, subIndex) => (
+                      <li
+                        key={subIndex}
+                        className="text-gray-300 text-sm flex items-center gap-x-4 cursor-pointer p-2 px-5 hover:bg-slate-700 rounded-md"
+                      >
+                        {submenuItems.title}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </>
+            </React.Fragment>
           ))}
         </ul>
+        <li
+          className={`text-gray-300 text-sm flex items-center gap-x-4 mt-6 cursor-pointer p-2 hover:bg-slate-700 rounded-md`}
+        >
+          <span className="text-2xl block float-left">
+            <CiLogout />
+          </span>
+          <button
+            onClick={LogoutButton}
+            className={`text-left text-base font-medium flex-1 duration-200 ${
+              !open && "hidden"
+            }`}
+          >
+            LogOut
+          </button>
+        </li>
       </div>
 
       <div className="p-4 sm:ml-62">
         <div className="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
           <div className="flex  flex-col items-center justify-start rounded bg-gray-50 h-20 dark:bg-gray-800">
             <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
-              DASHBOARD
+              Dashboard de {user ? user.nombre : "Invitado"}
             </h1>
             <p className="mb-6 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400">
               Pagina Web para configurar las empresas, personas y empleos
