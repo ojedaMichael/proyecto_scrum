@@ -7,7 +7,11 @@ import {
   CiPaperplane,
   CiViewList,
   CiLogout,
+  CiUser,
+  CiHome,
 } from "react-icons/ci";
+
+import { BsFileEarmarkPerson,  BsHouses } from "react-icons/bs";
 import { CiShop } from "react-icons/ci";
 import { MdSpaceDashboard } from "react-icons/md";
 import { Link } from "react-router-dom";
@@ -15,12 +19,12 @@ function Slidenavs() {
   const [open, setOpen] = useState(true);
   const [submenuOpen, setSubmenuOpen] = useState(false);
   const Menu = [
-    { link: "/dashboard", title: <Link to="/dashboard">Dashboard</Link> },
-    { title: "Perfil", icon: <CiMenuBurger /> },
+    { link: "/dashboard", title: <Link to="/dashboard">Dashboard</Link>, icon: <CiHome /> },
+    { title: "Perfil", icon:<CiUser /> },
     {
       link: "/empresas",
       title: <Link to="/empresas">Empresas</Link>,
-      icon: <CiPaperplane />,
+      icon:<BsHouses />,
       spacing: true,
     },
     {
@@ -31,13 +35,14 @@ function Slidenavs() {
     {
       link: "/personas",
       title: <Link to="/personas">Personas</Link>,
-      icon: <CiViewList />,
+      icon:<BsFileEarmarkPerson />,
     },
     {
       link: "/personas",
-      itle: <Link to="/personas">Log_Out</Link>,
-      icon: <CiLogout />,
+      title: <Link to="/personas">LogOut</Link>,
+      icon: <CiLogout />
     },
+
   ];
   return (
     <div className="flex">
@@ -63,8 +68,8 @@ function Slidenavs() {
             className={`text-white origin-right font-medium text-2xl duration-300 ${
               !open && "scale-0"
             }`}
-          >
-            logo empresa
+          >   
+          Job Board
           </h1>
         </div>
         <div

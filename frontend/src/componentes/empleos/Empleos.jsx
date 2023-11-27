@@ -7,7 +7,11 @@ import {
   CiPaperplane,
   CiViewList,
   CiLogout,
+  CiUser,
+  CiHome,  
+
 } from "react-icons/ci";
+import { BsFileEarmarkPerson,  BsHouses } from "react-icons/bs";
 import { CiShop } from "react-icons/ci";
 import { MdSpaceDashboard } from "react-icons/md";
 import { Link } from "react-router-dom";
@@ -16,12 +20,12 @@ function Empleos() {
   const [open, setOpen] = useState(true);
   const [submenuOpen, setSubmenuOpen] = useState(false);
   const Menu = [
-    { link: "/dashboard", title: <Link to="/dashboard">Dashboard</Link> },
-    { title: "Perfil", icon: <CiMenuBurger /> },
+    { link: "/dashboard", title: <Link to="/dashboard">Dashboard</Link>, icon: <CiHome /> },
+    { title: "Perfil", icon:<CiUser /> },
     {
       link: "/empresas",
       title: <Link to="/empresas">Empresas</Link>,
-      icon: <CiPaperplane />,
+      icon: <BsHouses />,
       spacing: true,
     },
     {
@@ -32,7 +36,7 @@ function Empleos() {
     {
       link: "/personas",
       title: <Link to="/personas">Personas</Link>,
-      icon: <CiViewList />,
+      icon:<BsFileEarmarkPerson />,
     },
     { title: "Logout", icon: <CiLogout /> },
   ];
@@ -64,7 +68,7 @@ function Empleos() {
               !open && "scale-0"
             }`}
           >
-            logo empresa
+          Job Board
           </h1>
         </div>
         <div

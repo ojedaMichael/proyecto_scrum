@@ -8,7 +8,11 @@ import {
   CiPaperplane,
   CiViewList,
   CiLogout,
+  CiUser,
+  CiHome
 } from "react-icons/ci";
+
+import { BsFileEarmarkPerson,  BsHouses } from "react-icons/bs";
 import { CiShop } from "react-icons/ci";
 import { MdSpaceDashboard } from "react-icons/md";
 import { Link } from "react-router-dom";
@@ -23,24 +27,29 @@ function Empresas() {
   const [updateTable, setUpdateTable] = useState(false);
 
   const Menu = [
-    { link: "/dashboard", title: <Link to="/dashboard">Dashboard</Link> },
-    { title: "Empresa", icon: <CiMenuBurger /> },
-    { title: "Media", icon: <CiPaperplane />, spacing: true },
+    { link: "/dashboard", title: <Link to="/dashboard">Dashboard</Link>, icon: <CiHome /> },
+    { title: "Perfil", icon:<CiUser /> },
     {
-      title: "Projects",
-      icon: <CiViewList />,
-      submenu: true,
-      submenuItems: [
-        { title: "Submenu 1" },
-        { title: "Submenu 2" },
-        { title: "Submenu 3" },
-      ],
+      link: "/empresas",
+      title: <Link to="/empresas">Empresas</Link>,
+      icon:<BsHouses />,
+      spacing: true,
     },
-    { title: "Analytics" },
-    { title: "Inbox" },
-    { title: "Profile", spacing: true },
-    { title: "Setting" },
-    { title: "Logout", icon: <CiLogout /> },
+    {
+      link: "/empleos",
+      title: <Link to="/empleos">Empleos</Link>,
+      icon: <CiViewList />,
+    },
+    {
+      link: "/personas",
+      title: <Link to="/personas">Personas</Link>,
+      icon:<BsFileEarmarkPerson />,
+    },
+    {
+      link: "/personas",
+      title: <Link to="/personas">LogOut</Link>,
+      icon: <CiLogout />
+    },
   ];
 
   const [formData, setFormData] = useState({
@@ -170,7 +179,7 @@ function Empresas() {
             className={`text-white origin-right font-medium text-2xl duration-300 ${!open && "scale-0"
               }`}
           >
-            logo empresa
+           Job Board
           </h1>
         </div>
         <div
