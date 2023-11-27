@@ -21,7 +21,7 @@ class AuthController extends Controller
             ]);
         }
         $user = Auth::user();
-        return response()->json(['message' => 'Inicio de sesión exitoso', 'user' => $user,'success' => true, 'redirect_url' => '/dashboard']);
+        return response()->json(['message' => 'Inicio de sesión exitoso', 'user' => $user]);
     }
 
     public function register(Request $request)
@@ -42,8 +42,9 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        $user = Auth::logout();
-        return response()->json(['message' => 'Sesión cerrada correctamente', $user, 'redirect_url' => '/logout']);
+        $request->user()->tokens()->delete();
+
+        return response()->json(['message' => 'Sesión cerrada correctamente']);
     }
 
     public function user(Request $request)

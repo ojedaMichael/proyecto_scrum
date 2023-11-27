@@ -1,14 +1,13 @@
 import { useNavigate } from "react-router-dom";
-import { useState} from "react";
-import { useUser } from './UserContext';
+import { useState } from "react";
 import axios from "axios";
 function LoginServices() {
   const [login, setLogin] = useState({
     email: "",
     password: "",
   });
-  const { updateUser } = useUser();
 
+  const [user, setUser] = useState(null);
   const handleInputChange = (e) => {
     e.preventDefault();
     const { name, value } = e.target;
@@ -19,6 +18,7 @@ function LoginServices() {
     console.log(login);
   };
   const navigate = useNavigate();
+
   /* const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -45,7 +45,7 @@ function LoginServices() {
     }
     console.log("Datos de login:", login);
   };*/
-   // eslint-disable-next-line no-unused-vars
+
   const handleLogin = async (e) => {
     e.preventDefault();
     const email = login.email;
@@ -64,28 +64,14 @@ function LoginServices() {
           },
         }
       );
-      updateUser(response.data.user);
-      if (response.data.success) {
-        navigate('/dashboard',{ replace: true }); // Ajusta la ruta según tu configuración
-      } else {
-        navigate('/');
-      }
+      navigate("/dashboard", { replace: true })
+      setUser(response.data.user)
+      console.log("Respuesta del servidor:", response.data.user);
     } catch (error) {
       console.error("Error al iniciar sesión:", error.response.data);
     }
   };
 
-  const LogoutButton = () => {
-    console.log('hola');
-    const handleLogout = async () => { 
-      try {
-        await axios.post('http://127.0.0.1:8000/api/logout');
-      } catch (error) {
-        console.error('Error al cerrar sesión:', error);
-      }
-    };
-    handleLogout();
-  };
-  return { handleInputChange, handleLogin};
+  return { handleInputChange, handleLogin, user};
 }
 export default LoginServices;

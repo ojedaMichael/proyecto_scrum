@@ -12,13 +12,8 @@ import { CiShop } from "react-icons/ci";
 import { MdSpaceDashboard } from "react-icons/md";
 import { Link } from "react-router-dom";
 import EmpleosGet from "./EmpleosGet";
-
-import LogOut from "../Login/LogOut";
-
 import axios from "axios";
-
 function Empleos() {
-  const { LogoutButton } = LogOut();
   const [open, setOpen] = useState(true);
   const [submenuOpen, setSubmenuOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -29,11 +24,7 @@ function Empleos() {
   
   const Menu = [
     { link: "/dashboard", title: <Link to="/dashboard">Dashboard</Link> },
-    {
-      link: "/perfil",
-      title: <Link to="/perfil">Perfil</Link>,
-      icon: <CiMenuBurger />,
-    },
+    { title: "Perfil", icon: <CiMenuBurger /> },
     {
       link: "/empresas",
       title: <Link to="/empresas">Empresas</Link>,
@@ -50,6 +41,7 @@ function Empleos() {
       title: <Link to="/personas">Personas</Link>,
       icon: <CiViewList />,
     },
+    { title: "Logout", icon: <CiLogout /> },
   ];
 
   const [formData, setFormData] = useState({
@@ -235,21 +227,6 @@ useEffect(() => {
             </>
           ))}
         </ul>
-        <li
-          className={`text-gray-300 text-sm flex items-center gap-x-4 mt-6 cursor-pointer p-2 hover:bg-slate-700 rounded-md`}
-        >
-          <span className="text-2xl block float-left">
-            <CiLogout />
-          </span>
-          <button
-            onClick={LogoutButton}
-            className={`text-left text-base font-medium flex-1 duration-200 ${
-              !open && "hidden"
-            }`}
-          >
-            LogOut
-          </button>
-        </li>
       </div>
 
       <div className="p-7">
