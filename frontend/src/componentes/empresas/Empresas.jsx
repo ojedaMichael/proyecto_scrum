@@ -78,12 +78,12 @@ function Empresas() {
   const handleRegistrer = async (e) => {
 
     e.preventDefault();
-    setUpdateTable(true);
+    
     try {
 
         const response = await axios.post('http://127.0.0.1:8000/api/empresas/', formData)
         alert(response.data)
-        
+        setUpdateTable(true);
     } catch (error) {
         console.error('error al enviar solicitud:', error)
     }
