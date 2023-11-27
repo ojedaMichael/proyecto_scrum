@@ -47,6 +47,11 @@ function Empresas() {
       title: <Link to="/personas">Personas</Link>,
       icon: <CiViewList />,
     },
+    {
+      link: "/postulaciones",
+      title: <Link to="/postulaciones">Postulaciones</Link>,
+      icon: <CiViewList />,
+    },
   ];
 
   const [formData, setFormData] = useState({
@@ -73,18 +78,19 @@ function Empresas() {
   };
 
   const handleRegistrer = async (e) => {
-
     e.preventDefault();
-    
-    try {
 
-        const response = await axios.post('http://127.0.0.1:8000/api/empresas/', formData)
-        alert(response.data)
-        setUpdateTable(true);
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/empresas/",
+        formData
+      );
+      alert(response.data);
+      setUpdateTable(true);
     } catch (error) {
-        console.error('error al enviar solicitud:', error)
+      console.error("error al enviar solicitud:", error);
     }
-}
+  };
 
   useEffect(() => {
     const getDataId = async () => {
@@ -114,7 +120,6 @@ function Empresas() {
         const response = await axios.get("http://127.0.0.1:8000/api/empresas");
         setDatos(response.data);
         setUpdateTable(false);
-        
       } catch (error) {
         console.error("Error al obtener datos de la API", error);
       }
@@ -158,40 +163,47 @@ function Empresas() {
   return (
     <div className="flex">
       <div
-        className={`bg-gray-900 h-screen p-5 pt-8 ${open ? "w-72" : "w-20"
-          } duration-300 relative`}
+        className={`bg-gray-900 h-screen p-5 pt-8 ${
+          open ? "w-72" : "w-20"
+        } duration-300 relative`}
       >
         <FiArrowLeft
-          className={`bg-white text-gray-900 text-3xl rounded-full absolute -right-3 top-9 border border-gray-900 cursor-pointer ${!open && "rotate-180"
-            } `}
+          className={`bg-white text-gray-900 text-3xl rounded-full absolute -right-3 top-9 border border-gray-900 cursor-pointer ${
+            !open && "rotate-180"
+          } `}
           onClick={() => setOpen(!open)}
         />
         <div className="inline-flex">
           <CiShop
             className={` bg-amber-300 text-4xl rounded
-            cursor-pointer block float-left mr-2 duration-500 ${open && "rotate-[360deg]"
-              }`}
+            cursor-pointer block float-left mr-2 duration-500 ${
+              open && "rotate-[360deg]"
+            }`}
           />
           <h1
-            className={`text-white origin-right font-medium text-2xl duration-300 ${!open && "scale-0"
-              }`}
+            className={`text-white origin-right font-medium text-2xl duration-300 ${
+              !open && "scale-0"
+            }`}
           >
             logo empresa
           </h1>
         </div>
         <div
-          className={`flex items-center rounded-md bg-slate-700 mt-6 ${!open ? "px-2.5" : "px-4"
-            } py-2`}
+          className={`flex items-center rounded-md bg-slate-700 mt-6 ${
+            !open ? "px-2.5" : "px-4"
+          } py-2`}
         >
           <CiSearch
-            className={`text-white text-lg block float-left cursor-pointer ${open && "mr-2"
-              } `}
+            className={`text-white text-lg block float-left cursor-pointer ${
+              open && "mr-2"
+            } `}
           />
           <input
             type={"search"}
             placeholder="search"
-            className={`text-base bg-transparent w-full text-white focus:outline-none ${!open && "hidden"
-              }`}
+            className={`text-base bg-transparent w-full text-white focus:outline-none ${
+              !open && "hidden"
+            }`}
           />
         </div>
         <ul className="pt-2">
@@ -199,15 +211,17 @@ function Empresas() {
             <>
               <li
                 key={index}
-                className={`text-gray-300 text-sm flex items-center gap-x-4 cursor-pointer p-2 hover:bg-slate-700 rounded-md ${menu.spacing ? "mt-9 " : "mt-2"
-                  } `}
+                className={`text-gray-300 text-sm flex items-center gap-x-4 cursor-pointer p-2 hover:bg-slate-700 rounded-md ${
+                  menu.spacing ? "mt-9 " : "mt-2"
+                } `}
               >
                 <span className="text-2xl block float-left">
                   {menu.icon ? menu.icon : <MdSpaceDashboard />}
                 </span>
                 <span
-                  className={`text-base font-medium flex-1 duration-200 ${!open && "hidden"
-                    }`}
+                  className={`text-base font-medium flex-1 duration-200 ${
+                    !open && "hidden"
+                  }`}
                 >
                   {menu.title}
                 </span>
@@ -251,13 +265,18 @@ function Empresas() {
           </button>
         </li>
       </div>
-      
+
       <div className="p-7">
         <h1 className="text-2x1 font-semibold mb-5">Home page</h1>
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
           <div className="pb-4 bg-white dark:bg-gray-900 flex justify-between">
             <label className="sr-only block">Search</label>
-            <button onClick={() => setIsOpenRegistrer(true)} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Crear</button>
+            <button
+              onClick={() => setIsOpenRegistrer(true)}
+              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+              Crear
+            </button>
             <div className="relative mt-1">
               <div className="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
                 <svg
@@ -286,92 +305,94 @@ function Empresas() {
               </>
             </div>
           </div>
-          <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-              <tr>
-                <th scope="col" className="p-4">
-                  <div className="flex items-center">
-                    <>
-                      <input
-                        id="checkbox-all-search"
-                        type="checkbox"
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                      ></input>
-                    </>
-                    <label className="sr-only">checkbox</label>
-                  </div>
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  nombre
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  rubro
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  email
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  rift
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  telefono
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Action
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {datos.map((dato, i) => (
-                <tr
-                  key={i}
-                  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                >
-                  <td className="w-4 p-4">
+          <div className="relative overflow-x-auto overflow-y-auto shadow-md sm:rounded-lg max-h-[450px]">
+            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+              <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                  <th scope="col" className="p-4">
                     <div className="flex items-center">
-                      <input
-                        id={`checkbox-table-search-${dato.id}`}
-                        type="checkbox"
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                      />
-                      <label
-                        htmlFor={`checkbox-table-search-${dato.id}`}
-                        className="sr-only"
-                      >
-                        checkbox
-                      </label>
+                      <>
+                        <input
+                          id="checkbox-all-search"
+                          type="checkbox"
+                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        ></input>
+                      </>
+                      <label className="sr-only">checkbox</label>
                     </div>
-                  </td>
-                  <th
-                    scope="row"
-                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                  >
-                    {dato.nombre}
                   </th>
-                  <td className="px-6 py-4">{dato.rubro}</td>
-                  <td className="px-6 py-4">{dato.email}</td>
-                  <td className="px-6 py-4">{dato.rif}</td>
-                  <td className="px-6 py-4">{dato.telefono}</td>
-                  <td className="px-6 py-4 flex">
-                    <button
-                      className="font-medium text-blue-600 dark:text-blue-500 hover:underline p-1"
-                      onClick={(e) => [handleClick(e), setIsOpen(true)]}
-                      value={dato.id}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className="font-medium text-red-600 dark:text-red-500 hover:underline p-1"
-                      onClick={handleDelete}
-                      value={dato.id}
-                    >
-                      Remove
-                    </button>
-                  </td>
+                  <th scope="col" className="px-6 py-3">
+                    nombre
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    rubro
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    email
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    rift
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    telefono
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Action
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {datos.map((dato, i) => (
+                  <tr
+                    key={i}
+                    className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                  >
+                    <td className="w-4 p-4">
+                      <div className="flex items-center">
+                        <input
+                          id={`checkbox-table-search-${dato.id}`}
+                          type="checkbox"
+                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        />
+                        <label
+                          htmlFor={`checkbox-table-search-${dato.id}`}
+                          className="sr-only"
+                        >
+                          checkbox
+                        </label>
+                      </div>
+                    </td>
+                    <th
+                      scope="row"
+                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                    >
+                      {dato.nombre}
+                    </th>
+                    <td className="px-6 py-4">{dato.rubro}</td>
+                    <td className="px-6 py-4">{dato.email}</td>
+                    <td className="px-6 py-4">{dato.rif}</td>
+                    <td className="px-6 py-4">{dato.telefono}</td>
+                    <td className="px-6 py-4 flex">
+                      <button
+                        className="font-medium text-blue-600 dark:text-blue-500 hover:underline p-1"
+                        onClick={(e) => [handleClick(e), setIsOpen(true)]}
+                        value={dato.id}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="font-medium text-red-600 dark:text-red-500 hover:underline p-1"
+                        onClick={handleDelete}
+                        value={dato.id}
+                      >
+                        Remove
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
       {isOpen && (
@@ -390,10 +411,7 @@ function Empresas() {
                     placeholder=" "
                     required
                   />
-                  <label
-                  
-                    className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                  >
+                  <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                     Nombre
                   </label>
                 </div>
@@ -408,10 +426,7 @@ function Empresas() {
                     placeholder=" "
                     required
                   />
-                  <label
-                   
-                    className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                  >
+                  <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                     Rubro
                   </label>
                 </div>
@@ -426,10 +441,7 @@ function Empresas() {
                     placeholder=" "
                     required
                   />
-                  <label
-                    
-                    className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                  >
+                  <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                     Email
                   </label>
                 </div>
@@ -445,10 +457,7 @@ function Empresas() {
                       placeholder=" "
                       required
                     />
-                    <label
-                      
-                      className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                    >
+                    <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                       Rif
                     </label>
                   </div>
@@ -463,10 +472,7 @@ function Empresas() {
                       placeholder=" "
                       required
                     />
-                    <label
-                      
-                      className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                    >
+                    <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                       telefono
                     </label>
                   </div>
@@ -505,10 +511,7 @@ function Empresas() {
                     placeholder=" "
                     required
                   />
-                  <label
-                  
-                    className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                  >
+                  <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                     Nombre
                   </label>
                 </div>
@@ -523,10 +526,7 @@ function Empresas() {
                     placeholder=" "
                     required
                   />
-                  <label
-                   
-                    className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                  >
+                  <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                     Rubro
                   </label>
                 </div>
@@ -541,10 +541,7 @@ function Empresas() {
                     placeholder=" "
                     required
                   />
-                  <label
-                    
-                    className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                  >
+                  <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                     Email
                   </label>
                 </div>
@@ -560,10 +557,7 @@ function Empresas() {
                       placeholder=" "
                       required
                     />
-                    <label
-                      
-                      className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                    >
+                    <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                       Rif
                     </label>
                   </div>
@@ -578,10 +572,7 @@ function Empresas() {
                       placeholder=" "
                       required
                     />
-                    <label
-                      
-                      className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                    >
+                    <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                       telefono
                     </label>
                   </div>

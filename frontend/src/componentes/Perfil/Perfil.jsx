@@ -13,8 +13,9 @@ import { CiShop } from "react-icons/ci";
 import { MdSpaceDashboard } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { useUser } from '../Login/UserContext';
-/*import LoginServices from "../Login/LoginServices";*/
+import LogOut from "../Login/LogOut";
 function Perfil() {
+  const { LogoutButton } = LogOut();
   const { user } = useUser();
   /*const { user } = LoginServices();*/
   const [open, setOpen] = useState(true);
@@ -39,9 +40,9 @@ function Perfil() {
       icon: <CiViewList />,
     },
     {
-      title: "Log_Out",
-      icon: <CiLogout />,
-      onClick: console.log("hola"),
+      link: "/postulaciones",
+      title: <Link to="/postulaciones">Postulaciones</Link>,
+      icon: <CiViewList />,
     },
   ];
   return (
@@ -136,6 +137,21 @@ function Perfil() {
               </React.Fragment>
             ))}
           </ul>
+          <li
+          className={`text-gray-300 text-sm flex items-center gap-x-4 mt-6 cursor-pointer p-2 hover:bg-slate-700 rounded-md`}
+        >
+          <span className="text-2xl block float-left">
+            <CiLogout />
+          </span>
+          <button
+            onClick={LogoutButton}
+            className={`text-left text-base font-medium flex-1 duration-200 ${
+              !open && "hidden"
+            }`}
+          >
+            LogOut
+          </button>
+        </li>
         </div>
         <div className="p-4 sm:ml-64">
           <div className="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">

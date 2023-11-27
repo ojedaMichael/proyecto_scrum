@@ -6,7 +6,6 @@ function Login() {
   return (
     <>
     {user && user ? <Perfil user={user}></Perfil>: ""}
-      <h1>login</h1>
       <section>
         <div className="px-4 py-12 mx-auto max-w-7xl sm:px-6 md:px-12 lg:px-24 lg:py-24">
           <div className="justify-center mx-auto text-left align-bottom transition-all transform bg-white rounded-lg sm:align-middle sm:max-w-2xl sm:w-full">

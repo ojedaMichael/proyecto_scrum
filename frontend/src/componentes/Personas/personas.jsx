@@ -40,6 +40,11 @@ function Personas() {
       title: <Link to="/personas">Personas</Link>,
       icon: <CiViewList />,
     },
+    {
+      link: "/postulaciones",
+      title: <Link to="/postulaciones">Postulaciones</Link>,
+      icon: <CiViewList />,
+    },
   ];
 
 
@@ -257,6 +262,7 @@ const handleRegistrer = async (e) => {
               </>
             </div>
           </div>
+          <div className="relative overflow-x-auto overflow-y-auto shadow-md sm:rounded-lg max-h-[450px]">
           <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
@@ -352,6 +358,7 @@ const handleRegistrer = async (e) => {
               ))}
             </tbody>
           </table>
+          </div>
         </div>
       </div>
       {isOpen && (

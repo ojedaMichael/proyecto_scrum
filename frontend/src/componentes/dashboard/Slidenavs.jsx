@@ -42,6 +42,11 @@ function Slidenavs() {
       title: <Link to="/personas">Personas</Link>,
       icon: <CiViewList />,
     },
+    {
+      link: "/postulaciones",
+      title: <Link to="/postulaciones">Postulaciones</Link>,
+      icon: <CiViewList />,
+    },
   ];
   return (
     <div className="flex">

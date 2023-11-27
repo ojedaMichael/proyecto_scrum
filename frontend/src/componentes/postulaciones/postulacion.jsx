@@ -12,7 +12,9 @@ import {
 import { CiShop } from "react-icons/ci";
 import { MdSpaceDashboard } from "react-icons/md";
 import { Link } from "react-router-dom";
-function postulacion() {
+import LogOut from "../Login/LogOut";
+function Postulacion() {
+  const { LogoutButton } = LogOut();
   const [numero, setNumero] = useState("");
   const [id, setId] = useState("");
   const [open, setOpen] = useState(true);
@@ -23,23 +25,32 @@ function postulacion() {
 
   const Menu = [
     { link: "/dashboard", title: <Link to="/dashboard">Dashboard</Link> },
-    { title: "Empresa", icon: <CiMenuBurger /> },
-    { title: "Media", icon: <CiPaperplane />, spacing: true },
     {
-      title: "Projects",
-      icon: <CiViewList />,
-      submenu: true,
-      submenuItems: [
-        { title: "Submenu 1" },
-        { title: "Submenu 2" },
-        { title: "Submenu 3" },
-      ],
+      link: "/perfil",
+      title: <Link to="/perfil">Perfil</Link>,
+      icon: <CiMenuBurger />,
     },
-    { title: "Analytics" },
-    { title: "Inbox" },
-    { title: "Profile", spacing: true },
-    { title: "Setting" },
-    { title: "Logout", icon: <CiLogout /> },
+    {
+      link: "/empresas",
+      title: <Link to="/empresas">Empresas</Link>,
+      icon: <CiPaperplane />,
+      spacing: true,
+    },
+    {
+      link: "/empleos",
+      title: <Link to="/empleos">Empleos</Link>,
+      icon: <CiViewList />,
+    },
+    {
+      link: "/personas",
+      title: <Link to="/personas">Personas</Link>,
+      icon: <CiViewList />,
+    },
+    {
+      link: "/postulaciones",
+      title: <Link to="/postulaciones">Postulaciones</Link>,
+      icon: <CiViewList />,
+    },
   ];
 
   const [formData, setFormData] = useState({
@@ -92,7 +103,9 @@ function postulacion() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:8000/api/postulaciones");
+        const response = await axios.get(
+          "http://127.0.0.1:8000/api/postulaciones"
+        );
         console.log(response.data);
         setDatos(response.data);
         setUpdateTable(false);
@@ -225,6 +238,21 @@ function postulacion() {
             </>
           ))}
         </ul>
+        <li
+          className={`text-gray-300 text-sm flex items-center gap-x-4 mt-6 cursor-pointer p-2 hover:bg-slate-700 rounded-md`}
+        >
+          <span className="text-2xl block float-left">
+            <CiLogout />
+          </span>
+          <button
+            onClick={LogoutButton}
+            className={`text-left text-base font-medium flex-1 duration-200 ${
+              !open && "hidden"
+            }`}
+          >
+            LogOut
+          </button>
+        </li>
       </div>
 
       <div className="p-7">
@@ -234,7 +262,7 @@ function postulacion() {
             <label className="sr-only block">Search</label>
             <button
               type="submit"
-              class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
               Crear
             </button>
@@ -266,183 +294,207 @@ function postulacion() {
               </>
             </div>
           </div>
-          <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-              <tr>
-                <th scope="col" className="p-4">
-                  <div className="flex items-center">
-                    <>
-                      <input
-                        id="checkbox-all-search"
-                        type="checkbox"
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                      ></input>
-                    </>
-                    <label className="sr-only">checkbox</label>
-                  </div>
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  nombre
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Cargo
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Detalles Empleo
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Requisitos
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Modalidad
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Salario
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Postulante
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {datos.map((dato, i) => (
-                <tr
-                  key={i}
-                  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                >
-                  <td className="w-4 p-4">
+          <div className="relative overflow-x-auto overflow-y-auto shadow-md sm:rounded-lg max-h-[450px]">
+            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+              <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                  <th scope="col" className="p-4">
                     <div className="flex items-center">
-                      <input
-                        id={`checkbox-table-search-${dato.id}`}
-                        type="checkbox"
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                      />
-                      <label
-                        htmlFor={`checkbox-table-search-${dato.id}`}
-                        className="sr-only"
-                      >
-                        checkbox
-                      </label>
+                      <>
+                        <input
+                          id="checkbox-all-search"
+                          type="checkbox"
+                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        ></input>
+                      </>
+                      <label className="sr-only">checkbox</label>
                     </div>
-                  </td>
-                  <th
-                    scope="row"
-                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                  >
-                    {dato.id_empleo[0]['idEmpresa']}
                   </th>
-                  <td className="px-6 py-4">{dato.id_empleo[0]['cargo']}</td>
-                  <td className="px-6 py-4">{dato.id_empleo[0]['detallesEmpleo']}</td>
-                  <td className="px-6 py-4">{dato.id_empleo[0]['requisitos']}</td>
-                  <td className="px-6 py-4">{dato.id_empleo[0]['modalidad']}</td>
-                  <td className="px-6 py-4">{dato.id_empleo[0]['salario']}</td>
-                  <td className="px-6 py-4">{dato.id_persona[0]['nombre']}</td>
-                  <td className="px-6 py-4">{dato.salario}</td>
-                  <td className="px-6 py-4 flex"><button className="font-medium text-blue-600 dark:text-blue-500 hover:underline p-1"onClick={(e) => [handleClick(e), setIsOpen(true)]}value={dato.id}>Edit</button><button className="font-medium text-red-600 dark:text-red-500 hover:underline p-1"onClick={handleDelete}value={dato.id}>
-                      Remove
-                    </button>
-                  </td>
+                  <th scope="col" className="px-6 py-3">
+                    nombre
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Cargo
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Detalles Empleo
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Requisitos
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Modalidad
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Salario
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Postulante
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Actions
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {datos.map((dato, i) => (
+                  <tr
+                    key={i}
+                    className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                  >
+                    <td className="w-4 p-4">
+                      <div className="flex items-center">
+                        <input
+                          id={`checkbox-table-search-${dato.id}`}
+                          type="checkbox"
+                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        />
+                        <label
+                          htmlFor={`checkbox-table-search-${dato.id}`}
+                          className="sr-only"
+                        >
+                          checkbox
+                        </label>
+                      </div>
+                    </td>
+                    <th
+                      scope="row"
+                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                    >
+                      {dato.id_empleo[0]["idEmpresa"]}
+                    </th>
+                    <td className="px-6 py-4">{dato.id_empleo[0]["cargo"]}</td>
+                    <td className="px-6 py-4">
+                      {dato.id_empleo[0]["detallesEmpleo"]}
+                    </td>
+                    <td className="px-6 py-4">
+                      {dato.id_empleo[0]["requisitos"]}
+                    </td>
+                    <td className="px-6 py-4">
+                      {dato.id_empleo[0]["modalidad"]}
+                    </td>
+                    <td className="px-6 py-4">
+                      {dato.id_empleo[0]["salario"]}
+                    </td>
+                    <td className="px-6 py-4">
+                      {dato.id_persona[0]["nombre"]}
+                    </td>
+                    <td className="px-6 py-4">{dato.salario}</td>
+                    <td className="px-6 py-4 flex">
+                      <button
+                        className="font-medium text-blue-600 dark:text-blue-500 hover:underline p-1"
+                        onClick={(e) => [handleClick(e), setIsOpen(true)]}
+                        value={dato.id}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="font-medium text-red-600 dark:text-red-500 hover:underline p-1"
+                        onClick={handleDelete}
+                        value={dato.id}
+                      >
+                        Remove
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
       {isOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center">
           <div className="bg-white p-5 rounded flex flex-col justify-center items-center gap-5 border-2 img_glow ">
             <div>
-              <form onSubmit={handleSubmit} class="max-w-md mx-auto">
-                <div class="relative z-0 w-full mb-5 group">
+              <form onSubmit={handleSubmit} className="max-w-md mx-auto">
+                <div className="relative z-0 w-full mb-5 group">
                   <input
                     type="text"
                     name="nombre"
                     id="nombre"
                     value={formData.nombre}
                     onChange={handleChange}
-                    class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
                     required
                   />
                   <label
-                    for="floating_email"
-                    class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                    htmlFor="floating_email"
+                    className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                   >
                     Nombre
                   </label>
                 </div>
-                <div class="relative z-0 w-full mb-5 group">
+                <div className="relative z-0 w-full mb-5 group">
                   <input
                     type="text"
                     name="rubro"
                     id="rubro"
                     value={formData.cargo}
                     onChange={handleChange}
-                    class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
                     required
                   />
                   <label
-                    for="floating_password"
-                    class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                    htmlFor="floating_password"
+                    className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                   >
                     Rubro
                   </label>
                 </div>
-                <div class="relative z-0 w-full mb-5 group">
+                <div className="relative z-0 w-full mb-5 group">
                   <input
                     type="text"
                     name="email"
                     id="email"
                     value={formData.requisitos}
                     onChange={handleChange}
-                    class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
                     required
                   />
                   <label
-                    for="floating_repeat_password"
-                    class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                    htmlFor="floating_repeat_password"
+                    className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                   >
                     Email
                   </label>
                 </div>
-                <div class="grid md:grid-cols-2 md:gap-6">
-                  <div class="relative z-0 w-full mb-5 group">
+                <div className="grid md:grid-cols-2 md:gap-6">
+                  <div className="relative z-0 w-full mb-5 group">
                     <input
                       type="text"
                       name="rif"
                       id="rif"
                       value={formData.modalidad}
                       onChange={handleChange}
-                      class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                      className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                       placeholder=" "
                       required
                     />
                     <label
-                      for="floating_first_name"
-                      class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                      htmlFor="floating_first_name"
+                      className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                     >
                       Rif
                     </label>
                   </div>
-                  <div class="relative z-0 w-full mb-5 group">
+                  <div className="relative z-0 w-full mb-5 group">
                     <input
                       type="text"
                       name="telefono"
                       id="telefono"
                       value={formData.salario}
                       onChange={handleChange}
-                      class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                      className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                       placeholder=" "
                       required
                     />
                     <label
-                      for="floating_last_name"
-                      class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                      htmlFor="floating_last_name"
+                      className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                     >
                       telefono
                     </label>
@@ -450,7 +502,7 @@ function postulacion() {
                 </div>
                 <button
                   type="submit"
-                  class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                  className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 >
                   Guardar
                 </button>
@@ -469,4 +521,4 @@ function postulacion() {
   );
 }
 
-export default postulacion;
+export default Postulacion;
