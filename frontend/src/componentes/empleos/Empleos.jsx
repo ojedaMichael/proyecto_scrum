@@ -57,12 +57,12 @@ function Empleos() {
 
   const [formData, setFormData] = useState({
     cargo: "",
-    detallesEmpleo: "",
     requisitos: "",
     ubicacion: "",
     modalidad: "",
     salario: "",
     idEmpresa: "",
+    detallesEmpleo: ""
   });
 
   useEffect(() => {
@@ -120,6 +120,7 @@ function Empleos() {
       ...formData,
       [name]: value,
     });
+    console.log(formData);
   };
 
   useEffect(() => {
@@ -131,12 +132,13 @@ function Empleos() {
 
         setFormData({
           cargo: response.data?.cargo || "",
-          detallesEmpleo: response.data?.detallesEmpleo || "",
+          
           requisitos: response.data?.requisitos || "",
           ubicacion: response.data?.ubicacion || "",
           modalidad: response.data?.modalidad || "",
           salario: response.data?.salario || "",
           idEmpresa: response.data?.idEmpresa || "",
+          detallesEmpleo: response.data?.detallesEmpleo || ""
         });
       } catch (error) {
         console.error("Error al obtener datos de la API para editar", error);
@@ -419,14 +421,14 @@ function Empleos() {
                 </div>
                 <div className="relative z-0 w-full mb-5 group">
                   <input
-                    type="text"
-                    name="detalleEmpleo"
-                    id="detalleEmpleo"
-                    value={formData.detallesEmpleo}
-                    onChange={handleChange}
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-gray-600 dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                    placeholder=" "
-                    required
+                     type="text"
+                     name="detallesEmpleo"
+                     id="detallesEmpleo"
+                     value={formData.detallesEmpleo}
+                     onChange={handleChange}
+                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-gray-600 dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                     placeholder=" "
+                     required
                   />
                   <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                     Detalle de Empleo
@@ -551,8 +553,8 @@ function Empleos() {
                 <div className="relative z-0 w-full mb-5 group">
                   <input
                     type="text"
-                    name="detalleEmpleo"
-                    id="detalleEmpleo"
+                    name="detallesEmpleo"
+                    id="detallesEmpleo"
                     value={formData.detallesEmpleo}
                     onChange={handleChange}
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-gray-600 dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
