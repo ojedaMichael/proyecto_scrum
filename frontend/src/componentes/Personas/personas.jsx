@@ -6,8 +6,9 @@ import { CiShop } from "react-icons/ci";
 import { MdSpaceDashboard } from "react-icons/md";
 import { Link } from "react-router-dom";
 
-
+import LogOut from "../Login/LogOut";
 function Personas() {
+  const { LogoutButton } = LogOut();
   const [numero, setNumero] = useState("");
   const [id, setId] = useState("");
   const [open, setOpen] = useState(true);
@@ -16,27 +17,34 @@ function Personas() {
   const [isOpen, setIsOpen] = useState(false)
   const [isOpenRegistrer, setIsOpenRegistrer] = useState(false);
   const [updateTable, setUpdateTable] = useState(false);
- 
- 
   const Menu = [
     { link: "/dashboard", title: <Link to="/dashboard">Dashboard</Link> },
-    { title: "Pages", icon:<CiMenuBurger /> },
-    { title: "Media", icon:<CiPaperplane />, spacing:true },
     {
-    title: "Projects",icon:<CiViewList />,
-    submenu: true,
-    submenuItems: [
-    { title: "Submenu 1" },
-    { title: "Submenu 2" },
-    { title: "Submenu 3" },
-   
-      ],
-   },
-    { title: "Analytics" },
-    { title: "Inbox" },
-    { title: "Profile", spacing:true },
-    { title: "Setting" },
-    {title: "Logout",icon:<CiLogout /> },
+      link: "/perfil",
+      title: <Link to="/perfil">Perfil</Link>,
+      icon: <CiMenuBurger />,
+    },
+    {
+      link: "/empresas",
+      title: <Link to="/empresas">Empresas</Link>,
+      icon: <CiPaperplane />,
+      spacing: true,
+    },
+    {
+      link: "/empleos",
+      title: <Link to="/empleos">Empleos</Link>,
+      icon: <CiViewList />,
+    },
+    {
+      link: "/personas",
+      title: <Link to="/personas">Personas</Link>,
+      icon: <CiViewList />,
+    },
+    {
+      link: "/postulaciones",
+      title: <Link to="/postulaciones">Postulaciones</Link>,
+      icon: <CiViewList />,
+    },
   ];
 
 
@@ -202,6 +210,21 @@ const handleRegistrer = async (e) => {
           </>
           )}
         </ul>
+        <li
+          className={`text-gray-300 text-sm flex items-center gap-x-4 mt-6 cursor-pointer p-2 hover:bg-slate-700 rounded-md`}
+        >
+          <span className="text-2xl block float-left">
+            <CiLogout />
+          </span>
+          <button
+            onClick={LogoutButton}
+            className={`text-left text-base font-medium flex-1 duration-200 ${
+              !open && "hidden"
+            }`}
+          >
+            LogOut
+          </button>
+        </li>
       </div>
 
 
@@ -239,6 +262,7 @@ const handleRegistrer = async (e) => {
               </>
             </div>
           </div>
+          <div className="relative overflow-x-auto overflow-y-auto shadow-md sm:rounded-lg max-h-[450px]">
           <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
@@ -334,6 +358,7 @@ const handleRegistrer = async (e) => {
               ))}
             </tbody>
           </table>
+          </div>
         </div>
       </div>
       {isOpen && (
