@@ -22,8 +22,6 @@ class PostulacionesController extends Controller
             $empresaname = empresas::where('id' , $empresa[0]["idEmpresa"])->get('nombre');
             $empleo[0]->idEmpresa= $empresaname[0]["nombre"];
             $postular->id_empleo = $empleo;
-
-
             $persona = $postular->id_persona = personas::where('id', $postular->id_persona)->get();
         }
         return $postulacion;
