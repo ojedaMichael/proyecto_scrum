@@ -6,36 +6,45 @@ import { CiShop } from "react-icons/ci";
 import { MdSpaceDashboard } from "react-icons/md";
 import { Link } from "react-router-dom";
 
-
-function personas() {
+import LogOut from "../Login/LogOut";
+function Personas() {
+  const { LogoutButton } = LogOut();
   const [numero, setNumero] = useState("");
   const [id, setId] = useState("");
   const [open, setOpen] = useState(true);
   const [submenuOpen, setSubmenuOpen] = useState(false);
   const [datos, setDatos] = useState([]);
   const [isOpen, setIsOpen] = useState(false)
+  const [isOpenRegistrer, setIsOpenRegistrer] = useState(false);
   const [updateTable, setUpdateTable] = useState(false);
- 
- 
   const Menu = [
     { link: "/dashboard", title: <Link to="/dashboard">Dashboard</Link> },
-    { title: "Pages", icon:<CiMenuBurger /> },
-    { title: "Media", icon:<CiPaperplane />, spacing:true },
     {
-    title: "Projects",icon:<CiViewList />,
-    submenu: true,
-    submenuItems: [
-    { title: "Submenu 1" },
-    { title: "Submenu 2" },
-    { title: "Submenu 3" },
-   
-      ],
-   },
-    { title: "Analytics" },
-    { title: "Inbox" },
-    { title: "Profile", spacing:true },
-    { title: "Setting" },
-    {title: "Logout",icon:<CiLogout /> },
+      link: "/perfil",
+      title: <Link to="/perfil">Perfil</Link>,
+      icon: <CiMenuBurger />,
+    },
+    {
+      link: "/empresas",
+      title: <Link to="/empresas">Empresas</Link>,
+      icon: <CiPaperplane />,
+      spacing: true,
+    },
+    {
+      link: "/empleos",
+      title: <Link to="/empleos">Empleos</Link>,
+      icon: <CiViewList />,
+    },
+    {
+      link: "/personas",
+      title: <Link to="/personas">Personas</Link>,
+      icon: <CiViewList />,
+    },
+    {
+      link: "/postulaciones",
+      title: <Link to="/postulaciones">Postulaciones</Link>,
+      icon: <CiViewList />,
+    },
   ];
 
 
@@ -54,7 +63,7 @@ function personas() {
 
     try {
 
-        const response = await axios.put(`http://127.0.0.1:8000/api/personas/{id}`, formData)
+        const response = await axios.put(`http://127.0.0.1:8000/api/personas/${id}`, formData)
         alert(response.data)
         setUpdateTable(true);
         
@@ -63,13 +72,26 @@ function personas() {
     }
 }
 
+const handleRegistrer = async (e) => {
+
+  e.preventDefault();
+  
+  try {
+
+      const response = await axios.post('http://127.0.0.1:8000/api/personas/', formData)
+      alert(response.data)
+      setUpdateTable(true);
+  } catch (error) {
+      console.error('error al enviar solicitud:', error)
+  }
+}
 
   useEffect(() => {
     const getDataId = async () => {
     try {
-        const response = await axios.get(`http://127.0.0.1:8000/api/personas/{id}`);
+        const response = await axios.get(`http://127.0.0.1:8000/api/personas/${id}`);
+        console.log(response.data);
         
-        console.log(setFormData);
         setFormData({
           nombre: response.data?.nombre || '',
           apellido: response.data?.apellido || '',
@@ -188,14 +210,30 @@ function personas() {
           </>
           )}
         </ul>
+        <li
+          className={`text-gray-300 text-sm flex items-center gap-x-4 mt-6 cursor-pointer p-2 hover:bg-slate-700 rounded-md`}
+        >
+          <span className="text-2xl block float-left">
+            <CiLogout />
+          </span>
+          <button
+            onClick={LogoutButton}
+            className={`text-left text-base font-medium flex-1 duration-200 ${
+              !open && "hidden"
+            }`}
+          >
+            LogOut
+          </button>
+        </li>
       </div>
 
 
       <div className="p-7">
         <h1 className="text-2x1 font-semibold">Home page</h1>     
        <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-          <div className="pb-4 bg-white dark:bg-gray-900">
-            <label className="sr-only">Search</label>
+       <div className="pb-4 bg-white dark:bg-gray-900 flex justify-between">
+            <label className="sr-only block">Search</label>
+            <button onClick={() => setIsOpenRegistrer(true)} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Crear</button>
             <div className="relative mt-1">
               <div className="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
                 <svg
@@ -224,6 +262,7 @@ function personas() {
               </>
             </div>
           </div>
+          <div className="relative overflow-x-auto overflow-y-auto shadow-md sm:rounded-lg max-h-[450px]">
           <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
@@ -319,79 +358,267 @@ function personas() {
               ))}
             </tbody>
           </table>
+          </div>
         </div>
       </div>
       {isOpen && (
+       <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center">
+       <div className="bg-white p-5 rounded flex flex-col justify-center items-center gap-5 border-2 img_glow ">
+         <div>
+           <form onSubmit={handleSubmit} className="max-w-md mx-auto">
+             <div className="relative z-0 w-full mb-5 group">
+               <input
+                 type="text"
+                 name="nombre"
+                 id="nombre"
+                 value={formData.nombre}
+                 onChange={handleChange}
+                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-gray-600 dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                 placeholder=" "
+                 required
+               />
+               <label
+               
+                 className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+               >
+                 Nombre
+               </label>
+             </div>
+             <div className="relative z-0 w-full mb-5 group">
+               <input
+                 type="text"
+                 name="apellido"
+                 id="apellido"
+                 value={formData.apellido}
+                 onChange={handleChange}
+                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-gray-600 dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                 placeholder=" "
+                 required
+               />
+               <label
+                
+                 className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+               >
+                 apellido
+               </label>
+             </div>
+             <div className="relative z-0 w-full mb-5 group">
+               <input
+                 type="text"
+                 name="email"
+                 id="email"
+                 value={formData.email}
+                 onChange={handleChange}
+                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-gray-600 dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                 placeholder=" "
+                 required
+               />
+               <label
+                 
+                 className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+               >
+                 Email
+               </label>
+             </div>
+             <div className="relative z-0 w-full mb-5 group">
+               <input
+                 type="text"
+                 name="password"
+                 id="password"
+                 value={formData.password}
+                 onChange={handleChange}
+                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-gray-600 dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                 placeholder=" "
+                 required
+               />
+               <label
+                 
+                 className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+               >
+                 Password
+               </label>
+             </div>
+             <div className="grid md:grid-cols-2 md:gap-6">
+               <div className="relative z-0 w-full mb-5 group">
+                 <input
+                   type="text"
+                   name="dni"
+                   id="dni"
+                   value={formData.dni}
+                   onChange={handleChange}
+                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-gray-600 dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                   placeholder=" "
+                   required
+                 />
+                 <label
+                   
+                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                 >
+                   dni
+                 </label>
+               </div>
+               <div className="relative z-0 w-full mb-5 group">
+                 <input
+                   type="text"
+                   name="telefono"
+                   id="telefono"
+                   value={formData.telefono}
+                   onChange={handleChange}
+                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-gray-600 dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                   placeholder=" "
+                   required
+                 />
+                 <label
+                   
+                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                 >
+                   telefono
+                 </label>
+               </div>
+             </div>
+             <button
+               type="submit"
+               className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+             >
+               Guardar
+             </button>
+           </form>
+         </div>
+         <button
+           onClick={() => setIsOpen(false)}
+           className="bg-red-500 p-2 rounded-md text-white"
+         >
+           cerrar
+         </button>
+       </div>
+     </div>
+      )}
+
+        {isOpenRegistrer && (
         <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center">
           <div className="bg-white p-5 rounded flex flex-col justify-center items-center gap-5 border-2 img_glow ">
-            <div className="border-2 border-gray-600">
-              <form onSubmit={handleSubmit}>
-                <label>
-                  nombre:
+            <div>
+              <form onSubmit={handleRegistrer} className="max-w-md mx-auto">
+                <div className="relative z-0 w-full mb-5 group">
                   <input
                     type="text"
                     name="nombre"
+                    id="nombre"
                     value={formData.nombre}
                     onChange={handleChange}
+                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-gray-600 dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    placeholder=" "
+                    required
                   />
-                </label>
-                <br />
-                <label>
-                  Apellido:
+                  <label
+                  
+                    className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                  >
+                    Nombre
+                  </label>
+                </div>
+                <div className="relative z-0 w-full mb-5 group">
                   <input
                     type="text"
                     name="apellido"
+                    id="apellido"
                     value={formData.apellido}
                     onChange={handleChange}
+                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-gray-600 dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    placeholder=" "
+                    required
                   />
-                </label>
-                <br />
-                <label>
-                  Email:
+                  <label
+                   
+                    className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                  >
+                    apellido
+                  </label>
+                </div>
+                <div className="relative z-0 w-full mb-5 group">
                   <input
                     type="text"
                     name="email"
+                    id="email"
                     value={formData.email}
                     onChange={handleChange}
+                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-gray-600 dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    placeholder=" "
+                    required
                   />
-                </label>
-                <br />
-                <label>
-                  DNI:
-                  <input
-                    type="text"
-                    name="dni"
-                    value={formData.dni}
-                    onChange={handleChange}
-                  />
-                </label>
-                <br />
-                <label>
-                  Telefono:
-                  <input
-                    type="text"
-                    name="telefono"
-                    value={formData.telefono}
-                    onChange={handleChange}
-                  />
-                </label>
-                <br />
-                <label>
-                  Password:
-                  <input
-                    type="text"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                  />
-                </label>
-                <br />
-
-                <button type="submit">Enviar</button>
+                  <label
+                    
+                    className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                  >
+                    Email
+                  </label>
+                </div>
+                <div className="relative z-0 w-full mb-5 group">
+               <input
+                 type="text"
+                 name="password"
+                 id="password"
+                 value={formData.password}
+                 onChange={handleChange}
+                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-gray-600 dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                 placeholder=" "
+                 required
+               />
+               <label
+                 
+                 className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+               >
+                 Password
+               </label>
+             </div>
+                <div className="grid md:grid-cols-2 md:gap-6">
+                  <div className="relative z-0 w-full mb-5 group">
+                    <input
+                      type="text"
+                      name="dni"
+                      id="dni"
+                      value={formData.dni}
+                      onChange={handleChange}
+                      className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-gray-600 dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                      placeholder=" "
+                      required
+                    />
+                    <label
+                      
+                      className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                    >
+                      dni
+                    </label>
+                  </div>
+                  <div className="relative z-0 w-full mb-5 group">
+                    <input
+                      type="text"
+                      name="telefono"
+                      id="telefono"
+                      value={formData.telefono}
+                      onChange={handleChange}
+                      className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-gray-600 dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                      placeholder=" "
+                      required
+                    />
+                    <label
+                      
+                      className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                    >
+                      telefono
+                    </label>
+                  </div>
+                </div>
+                <button
+                  type="submit"
+                  className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                >
+                  Guardar
+                </button>
               </form>
             </div>
             <button
-              onClick={() => setIsOpen(false)}
+              onClick={() => setIsOpenRegistrer(false)}
               className="bg-red-500 p-2 rounded-md text-white"
             >
               cerrar
@@ -403,4 +630,4 @@ function personas() {
   );
 }
 
-export default personas;
+export default Personas;
