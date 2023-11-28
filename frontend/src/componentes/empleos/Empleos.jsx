@@ -11,12 +11,12 @@ import {
 import { CiShop } from "react-icons/ci";
 import { MdSpaceDashboard } from "react-icons/md";
 import { Link } from "react-router-dom";
-import EmpleosGet from "./EmpleosGet";
 import LogOut from "../Login/LogOut";
 import axios from "axios";
 
 function Empleos() {
   const { LogoutButton } = LogOut();
+  const [numero, setNumero] = useState("");
   const [open, setOpen] = useState(true);
   const [submenuOpen, setSubmenuOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -62,7 +62,7 @@ function Empleos() {
     modalidad: "",
     salario: "",
     idEmpresa: "",
-    detallesEmpleo: ""
+    detallesEmpleo: "",
   });
 
   useEffect(() => {
@@ -108,12 +108,33 @@ function Empleos() {
     }
   };
 
+  useEffect(() => {
+    const deleteData = async () => {
+      try {
+        const response = await axios.delete(
+          `http://127.0.0.1:8000/api/empleos/${numero}`
+        );
+        alert(response.data);
+        setUpdateTable(true);
+      } catch (error) {
+        console.error("Error al borrar de la API", error);
+      }
+    };
+    deleteData();
+
+  }, [numero]);
+
   const handleClick = (e) => {
     const number = e.target.value;
 
     setId(number);
   };
 
+  const handleDelete = (e) => {
+    e.preventDefault();
+    const number = e.target.value;
+    setNumero(number);
+  };
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -132,13 +153,13 @@ function Empleos() {
 
         setFormData({
           cargo: response.data?.cargo || "",
-          
+
           requisitos: response.data?.requisitos || "",
           ubicacion: response.data?.ubicacion || "",
           modalidad: response.data?.modalidad || "",
           salario: response.data?.salario || "",
           idEmpresa: response.data?.idEmpresa || "",
-          detallesEmpleo: response.data?.detallesEmpleo || ""
+          detallesEmpleo: response.data?.detallesEmpleo || "",
         });
       } catch (error) {
         console.error("Error al obtener datos de la API para editar", error);
@@ -146,8 +167,6 @@ function Empleos() {
     };
     getDataId();
   }, [id]);
-
-  const { handleSubmit } = EmpleosGet();
 
   return (
     <div className="flex">
@@ -377,19 +396,13 @@ function Empleos() {
                         >
                           Edit
                         </button>
-                        <form onSubmit={handleSubmit}>
-                          <button
-                            type="submit"
-                            className="font-medium text-red-600 dark:text-red-500 hover:underline ms-3"
-                          >
-                            Remove
-                            <input
-                              type="text"
-                              defaultValue={empleos.id}
-                              hidden
-                            />
-                          </button>
-                        </form>
+                        <button
+                          className="font-medium text-red-600 dark:text-red-500 hover:underline ms-3"
+                          onClick={handleDelete}
+                          value={empleos.id}
+                        >
+                          Remove
+                        </button>
                       </td>
                     </tr>
                   </>
@@ -421,14 +434,14 @@ function Empleos() {
                 </div>
                 <div className="relative z-0 w-full mb-5 group">
                   <input
-                     type="text"
-                     name="detallesEmpleo"
-                     id="detallesEmpleo"
-                     value={formData.detallesEmpleo}
-                     onChange={handleChange}
-                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-gray-600 dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                     placeholder=" "
-                     required
+                    type="text"
+                    name="detallesEmpleo"
+                    id="detallesEmpleo"
+                    value={formData.detallesEmpleo}
+                    onChange={handleChange}
+                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-gray-600 dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    placeholder=" "
+                    required
                   />
                   <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                     Detalle de Empleo

@@ -75,17 +75,6 @@ function LoginServices() {
     }
   };
 
-  const LogoutButton = () => {
-    console.log('hola');
-    const handleLogout = async () => { 
-      try {
-        await axios.post('http://127.0.0.1:8000/api/logout');
-      } catch (error) {
-        console.error('Error al cerrar sesión:', error);
-      }
-    };
-    handleLogout();
-  };
   return { handleInputChange, handleLogin};
 }
 export default LoginServices;

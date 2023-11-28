@@ -1,30 +1,32 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
 function EmpleosGet() {
- 
- const [empleosData, setEmpleosData] = useState(null);
+  const [empleosdelete, setEmpleosDelete] = useState(null);
+ const [id, setId] = useState("");
 
-  const deleteData = async (idBorrar) => {
+ useEffect(() => {
+  const deleteData = async () => {
     try {
+      console.log(id);
       const response = await axios.delete(
-        `http://127.0.0.1:8000/api/empleos/${idBorrar}`
+        `http://127.0.0.1:8000/api/empleos/${id}`
       );
-      console.log(response.data);
-      const response2 = await axios.get("http://127.0.0.1:8000/api/empleos");
-        setEmpleosData(response2.data);
+      alert(response.data);
+      setEmpleosDelete(true);
     } catch (error) {
       console.error("error al enviar solicitud:", error);
     }
   };
+  deleteData()
+}, [id]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const idBorrar = e.target[1].value;
-    console.log(e);
-      deleteData(idBorrar);
+    const idBorrar = e.target.value;
+    setId(idBorrar);
   };
 
-  return { empleosData, handleSubmit };
+  return { empleosdelete, handleSubmit };
 }
 export default EmpleosGet;

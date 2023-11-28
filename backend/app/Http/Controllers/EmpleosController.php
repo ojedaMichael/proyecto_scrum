@@ -86,6 +86,6 @@ class EmpleosController extends Controller
     {
         $empleos = empleos::find($id);
         $empleos->delete();
-        return "Asistencia eliminada exitosamente"; 
+        return "Empleo eliminado exitosamente"; 
     }
 }
