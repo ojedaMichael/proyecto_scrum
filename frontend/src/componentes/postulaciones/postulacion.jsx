@@ -174,7 +174,7 @@ function Postulacion() {
               !open && "scale-0"
             }`}
           >
-            logo empresa
+            Goldman Sachs
           </h1>
         </div>
         <div
