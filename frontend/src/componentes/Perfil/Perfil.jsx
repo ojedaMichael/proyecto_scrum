@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FiArrowLeft } from "react-icons/fi";
 import React from "react";
 import {
@@ -14,12 +14,14 @@ import { MdSpaceDashboard } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { useUser } from '../Login/UserContext';
 import LogOut from "../Login/LogOut";
+import axios from "axios";
 function Perfil() {
   const { LogoutButton } = LogOut();
   const { user } = useUser();
   /*const { user } = LoginServices();*/
   const [open, setOpen] = useState(true);
   const [submenuOpen, setSubmenuOpen] = useState(false);
+  const [updateTable, setUpdateTable] = useState(false);
   const Menu = [
     { link: "/dashboard", title: <Link to="/dashboard">Dashboard</Link> },
     { title: "Perfil", icon: <CiMenuBurger /> },
@@ -45,6 +47,59 @@ function Perfil() {
       icon: <CiViewList />,
     },
   ];
+
+  const [formData, setFormData] = useState({
+    nombre: '',
+    apellido: '',
+    email: '',
+    dni: '',
+    telefono: '',
+    password: ''
+  });
+
+  const handleSubmit = async (e) => {
+
+    e.preventDefault();
+
+    try {
+
+        const response = await axios.put(`http://127.0.0.1:8000/api/personas/${user.id}`, formData)
+        alert(response.data)
+        setUpdateTable(true);
+        
+    } catch (error) {
+        console.error('error al enviar solicitud:', error)
+    }
+}
+
+  useEffect(() => {
+    const getDataId = async () => {
+    try {
+        const response = await axios.get(`http://127.0.0.1:8000/api/personas/${user.id}`);
+        console.log(response.data);
+        setUpdateTable(false);
+        setFormData({
+          nombre: response.data?.nombre || '',
+          apellido: response.data?.apellido || '',
+          email: response.data?.email || '',
+          dni: response.data?.dni || '',
+          telefono: response.data?.telefono || '',
+          password: response.data?.password || ''
+          });
+    } catch (error) {
+        console.error('Error al obtener datos de la API para editar', error);
+    }
+    };
+    getDataId();
+  }, [updateTable , user.id]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
   return (
     <>
       <div className="flex">
@@ -164,72 +219,59 @@ function Perfil() {
               </p>
             </div>
           </div>
-            <form className=" mt-[70px] max-w-md mx-auto ">
+            <form onSubmit={handleSubmit} className=" mt-[70px] max-w-md mx-auto ">
             {user && (
               <>
               <div className="relative z-0 w-full mb-5 group">
                 <input
                   type="email"
-                  name="floating_email"
-                  id="floating_email"
-                  className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                  name="email"
+                  id="email"
+                  className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
                   required
-                  defaultValue={user.email}
+                  value={formData.email}
+                  onChange={handleChange}
                 />
                 {console.log(user)}
                 <label
-                  htmlFor="floating_email"
+                  htmlFor="email"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 ></label>
               </div>
               <div className="relative z-0 w-full mb-5 group">
                 <input
                   type="password"
-                  name="floating_password"
-                  id="floating_password"
-                  className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                  name="password"
+                  id="password"
+                  className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
                   required
-                  defaultValue={"********"}
+                  value={formData.password}
+                  onChange={handleChange}
                 />
                 <label
-                  htmlFor="floating_password"
+                  htmlFor="password"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   Password
                 </label>
               </div>
-              <div className="relative z-0 w-full mb-5 group">
-                <input
-                  type="password"
-                  name="repeat_password"
-                  id="floating_repeat_password"
-                  className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                  placeholder=" "
-                  required
-                  defaultValue={"********"}
-                />
-                <label
-                  htmlFor="floating_repeat_password"
-                  className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                >
-                  Confirm password
-                </label>
-              </div>
+              
               <div className="grid md:grid-cols-2 md:gap-6">
                 <div className="relative z-0 w-full mb-5 group">
                   <input
                     type="text"
-                    name="floating_first_name"
-                    id="floating_first_name"
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    name="nombre"
+                    id="nombre"
+                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
                     required
-                    defaultValue={user.nombre}
+                    value={formData.nombre}
+                    onChange={handleChange}
                   />
                   <label
-                    htmlFor="floating_first_name"
+                    htmlFor="nombre"
                     className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                   >
                     First name
@@ -238,15 +280,16 @@ function Perfil() {
                 <div className="relative z-0 w-full mb-5 group">
                   <input
                     type="text"
-                    name="floating_last_name"
-                    id="floating_last_name"
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    name="apellido"
+                    id="apellido"
+                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
                     required
-                    defaultValue={user.apellido}
+                    value={formData.apellido}
+                    onChange={handleChange}
                   />
                   <label
-                    htmlFor="floating_last_name"
+                    htmlFor="apellido"
                     className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                   >
                     Last name
@@ -256,34 +299,36 @@ function Perfil() {
               <div className="grid md:grid-cols-2 md:gap-6">
                 <div className="relative z-0 w-full mb-5 group">
                   <input
-                    type="tel"
-                    pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                    name="floating_phone"
-                    id="floating_phone"
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    type="text"
+                   
+                    name="telefono"
+                    id="telefono"
+                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
                     required
-                    defaultValue={user.telefono}
+                    value={formData.telefono}
+                    onChange={handleChange}
                   />
                   <label
-                    htmlFor="floating_phone"
+                    htmlFor="telefono"
                     className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                   >
-                    Phone number (123-456-7890)
+                    Phone number
                   </label>
                 </div>
                 <div className="relative z-0 w-full mb-5 group">
                   <input
                     type="text"
-                    name="floating_company"
-                    id="floating_company"
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    name="dni"
+                    id="dni"
+                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
                     required
-                    defaultValue={user.dni}
+                    value={formData.dni}
+                    onChange={handleChange}
                   />
                   <label
-                    htmlFor="floating_company"
+                    htmlFor="dni"
                     className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                   >
                     dni
